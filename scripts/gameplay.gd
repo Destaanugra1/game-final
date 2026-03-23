@@ -58,6 +58,7 @@ var health := MAX_HEALTH
 var enemy_data: Array[Dictionary] = []
 var drop_texture: AtlasTexture
 var is_game_over := false
+var can_talk_npc := false
 
 func _ready() -> void:
 	drop_texture = AtlasTexture.new()
@@ -66,6 +67,7 @@ func _ready() -> void:
 
 	$CanvasLayer/MenuButton.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/main_menu.tscn"))
 	npc.body_entered.connect(_on_npc_entered)
+	npc.body_exited.connect(_on_npc_exited)
 	gate.body_entered.connect(_on_gate_entered)
 	popup_timer.timeout.connect(func(): popup.visible = false)
 	animation_timer.timeout.connect(_on_animation_tick)
@@ -74,6 +76,8 @@ func _ready() -> void:
 	game_over_retry_button.pressed.connect(_on_game_over_retry)
 	game_over_menu_button.pressed.connect(_on_game_over_menu)
 	game_over_overlay.visible = false
+	npc_dialog.visible = false
+	npc_dialog_label.text = "Hai petualang! Aku punya tantangan untukmu. Tekan E untuk mulai!"
 
 	for coin in $Coins.get_children():
 		coin.body_entered.connect(_on_coin_entered.bind(coin))
@@ -141,6 +145,11 @@ func _physics_process(delta: float) -> void:
 	player.velocity.x = direction * SPEED
 	player.move_and_slide()
 	player.global_position.x = clamp(player.global_position.x, MAP_LEFT, MAP_RIGHT)
+	if can_talk_npc and Input.is_key_pressed(KEY_E):
+		can_talk_npc = false
+		npc_dialog.visible = false
+		get_tree().change_scene_to_file("res://scenes/quiz_screen.tscn")
+		return
 	if player.global_position.y > 620:
 		_damage_player()
 
@@ -258,8 +267,16 @@ func _on_coin_entered(body: Node2D, coin: Area2D) -> void:
 	_refresh()
 
 func _on_npc_entered(body: Node2D) -> void:
-	if body == player:
-		get_tree().change_scene_to_file("res://scenes/quiz_screen.tscn")
+	if body != player:
+		return
+	can_talk_npc = true
+	npc_dialog.visible = true
+
+func _on_npc_exited(body: Node2D) -> void:
+	if body != player:
+		return
+	can_talk_npc = false
+	npc_dialog.visible = false
 
 func _on_gate_entered(body: Node2D) -> void:
 	if body != player:
@@ -296,6 +313,7 @@ func _show_game_over() -> void:
 	attack_shape.disabled = true
 	is_attacking = false
 	popup.visible = false
+	npc_dialog.visible = false
 	animation_timer.stop()
 	attack_timer.stop()
 	game_over_overlay.visible = true
@@ -383,5 +401,8 @@ func _on_animation_tick() -> void:
 		var visual: Sprite2D = enemy.get_node("Visual")
 		if enemy_entry["type"] == "snail":
 			visual.frame = enemy_anim_tick % SNAIL_FRAMES
+		else:
+			visual.frame = enemy_anim_tick % BEE_FRAMES
+l.frame = enemy_anim_tick % SNAIL_FRAMES
 		else:
 			visual.frame = enemy_anim_tick % BEE_FRAMES
