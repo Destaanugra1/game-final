@@ -45,7 +45,7 @@ func _answer(index: int) -> void:
 		return
 	answered = true
 	timer.stop()
-	var q = GameState.current_question()
+	var q: Dictionary = GameState.current_question()
 	if index == q["correct"]:
 		GameState.add_score(10)
 		GameState.quiz_completed = true
@@ -65,7 +65,7 @@ func _answer(index: int) -> void:
 func _on_time_up() -> void:
 	answered = true
 	timer.stop()
-	var hp_left := GameState.damage_player(1)
+	var hp_left: int = GameState.damage_player(1)
 	feedback_label.visible = true
 	feedback_label.text = "Waktu habis! Nyawa -1"
 	feedback_label.modulate = Color(1, 0.45, 0.45, 1)
@@ -86,7 +86,7 @@ func _refresh_hud() -> void:
 	health_label.text = "NYAWA: %d" % GameState.player_health
 
 func _update_timer_bar() -> void:
-	var ratio := clamp(time_left / QUIZ_TIME, 0.0, 1.0)
+	var ratio: float = clampf(time_left / QUIZ_TIME, 0.0, 1.0)
 	timer_text.text = "%ds" % int(ceil(time_left))
 	timer_fill.custom_minimum_size.x = 676.0 * ratio
 	timer_fill.size.x = 676.0 * ratio
