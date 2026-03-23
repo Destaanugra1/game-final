@@ -22,6 +22,9 @@ const DROP_BASE_TEXTURE := preload("res://assets/Tiles.png")
 @onready var npc: Area2D = $NPC
 @onready var npc_dialog: Control = $NPC/DialogBubble
 @onready var npc_dialog_label: Label = $NPC/DialogBubble/Panel/Label
+@onready var npc2: Area2D = $NPC2
+@onready var npc2_dialog: Control = $NPC2/DialogBubble
+@onready var npc2_dialog_label: Label = $NPC2/DialogBubble/Panel/Label
 @onready var gate: Area2D = $Gate
 @onready var enemies_root: Node2D = $Enemies
 @onready var drops_root: Node2D = $Drops
@@ -73,6 +76,8 @@ func _ready() -> void:
 	$CanvasLayer/MenuButton.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/main_menu.tscn"))
 	npc.body_entered.connect(_on_npc_entered)
 	npc.body_exited.connect(_on_npc_exited)
+	npc2.body_entered.connect(_on_npc2_entered)
+	npc2.body_exited.connect(_on_npc2_exited)
 	gate.body_entered.connect(_on_gate_entered)
 	popup_timer.timeout.connect(func(): popup.visible = false)
 	animation_timer.timeout.connect(_on_animation_tick)
@@ -82,7 +87,9 @@ func _ready() -> void:
 	game_over_menu_button.pressed.connect(_on_game_over_menu)
 	game_over_overlay.visible = false
 	npc_dialog.visible = false
-	npc_dialog_label.text = "Hai petualang! Aku punya tantangan untukmu. Tekan E untuk mulai!"
+	npc2_dialog.visible = false
+	npc_dialog_label.text = "NPC 1: Tekan E untuk soal pertama!"
+	npc2_dialog_label.text = "NPC 2: Tekan E untuk soal berikutnya!"
 
 	for coin in $Coins.get_children():
 		coin.body_entered.connect(_on_coin_entered.bind(coin))
