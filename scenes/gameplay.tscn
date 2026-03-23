@@ -107,7 +107,7 @@ energy = 0.8
 z_index = -5
 offset_right = 2500.0
 offset_bottom = 600.0
-color = Color(0.55, 0.75, 0.85, 1)
+color = Color(0.37, 0.74, 0.88, 1)
 
 [node name="BackgroundArt" type="TextureRect" parent="." unique_id=816391497]
 modulate = Color(1, 1, 1, 0.5)
@@ -430,52 +430,106 @@ polygon = PackedVector2Array(0, 0, 14, 4, 0, 8)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=936954464]
 
-[node name="HudPanel" type="Panel" parent="CanvasLayer" unique_id=2052001796]
+[node name="StatusBar" type="HBoxContainer" parent="CanvasLayer"]
+layout_mode = 0
 offset_left = 18.0
 offset_top = 16.0
-offset_right = 432.0
-offset_bottom = 164.0
-theme_override_styles/panel = SubResource("StyleHudPanel")
+offset_right = 420.0
+offset_bottom = 100.0
+theme_override_constants/separation = 12
 
-[node name="Margin" type="MarginContainer" parent="CanvasLayer/HudPanel" unique_id=1835396171]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 12.0
-offset_right = 398.0
-offset_bottom = 138.0
-
-[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HudPanel/Margin" unique_id=1523293881]
+[node name="ScoreCard" type="Panel" parent="CanvasLayer/StatusBar"]
 layout_mode = 2
-theme_override_constants/separation = 7
+custom_minimum_size = Vector2(120, 76)
 
-[node name="ScoreTitle" type="Label" parent="CanvasLayer/HudPanel/Margin/VBox" unique_id=423711060]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.71, 0.88, 1, 1)
-text = "STATUS"
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/ScoreCard"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -27.0
+offset_right = 45.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 
-[node name="StatsRow" type="HBoxContainer" parent="CanvasLayer/HudPanel/Margin/VBox" unique_id=1225389665]
+[node name="Title" type="Label" parent="CanvasLayer/StatusBar/ScoreCard/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 36
+theme_override_font_sizes/font_size = 16
+text = "SKOR"
+horizontal_alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="CanvasLayer/HudPanel/Margin/VBox/StatsRow" unique_id=1262411924]
+[node name="Value" type="Label" parent="CanvasLayer/StatusBar/ScoreCard/VBox"]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Score: 0"
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
 
-[node name="LevelLabel" type="Label" parent="CanvasLayer/HudPanel/Margin/VBox/StatsRow" unique_id=1424238709]
+[node name="HealthCard" type="Panel" parent="CanvasLayer/StatusBar"]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Level 1"
+custom_minimum_size = Vector2(120, 76)
 
-[node name="HealthLabel" type="Label" parent="CanvasLayer/HudPanel/Margin/VBox" unique_id=1154615341]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.77, 0.77, 1)
-text = "Nyawa: 3"
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/HealthCard"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -27.0
+offset_right = 45.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 
-[node name="AttackLabel" type="Label" parent="CanvasLayer/HudPanel/Margin/VBox" unique_id=1407632725]
+[node name="Title" type="Label" parent="CanvasLayer/StatusBar/HealthCard/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.92, 0.62, 1)
-text = "Serang: tombol J"
+theme_override_font_sizes/font_size = 16
+text = "NYAWA"
+horizontal_alignment = 1
+
+[node name="Value" type="Label" parent="CanvasLayer/StatusBar/HealthCard/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "❤️❤️❤️"
+horizontal_alignment = 1
+
+[node name="LevelCard" type="Panel" parent="CanvasLayer/StatusBar"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 76)
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/LevelCard"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -27.0
+offset_right = 45.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/StatusBar/LevelCard/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "LEVEL"
+horizontal_alignment = 1
+
+[node name="Value" type="Label" parent="CanvasLayer/StatusBar/LevelCard/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "1"
+horizontal_alignment = 1
 
 [node name="PopupLabel" type="Label" parent="CanvasLayer" unique_id=1072677632]
 visible = false

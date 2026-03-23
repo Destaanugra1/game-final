@@ -26,9 +26,9 @@ const DROP_BASE_TEXTURE := preload("res://assets/Tiles.png")
 @onready var enemies_root: Node2D = $Enemies
 @onready var drops_root: Node2D = $Drops
 @onready var popup: Label = $CanvasLayer/PopupLabel
-@onready var score_label: Label = $CanvasLayer/HudPanel/Margin/VBox/StatsRow/ScoreLabel
-@onready var level_label: Label = $CanvasLayer/HudPanel/Margin/VBox/StatsRow/LevelLabel
-@onready var health_label: Label = $CanvasLayer/HudPanel/Margin/VBox/HealthLabel
+@onready var score_label: Label = $CanvasLayer/StatusBar/ScoreCard/VBox/Value
+@onready var health_label: Label = $CanvasLayer/StatusBar/HealthCard/VBox/Value
+@onready var level_label: Label = $CanvasLayer/StatusBar/LevelCard/VBox/Value
 @onready var popup_timer: Timer = $PopupTimer
 @onready var animation_timer: Timer = $AnimationTimer
 @onready var attack_timer: Timer = $AttackTimer
@@ -341,9 +341,9 @@ func _show_popup(text: String) -> void:
 	popup_timer.start()
 
 func _refresh() -> void:
-	score_label.text = "Score: %d" % GameState.score
-	level_label.text = "Level %d" % GameState.selected_level
-	health_label.text = "Nyawa: %d" % health
+	score_label.text = "%d" % GameState.score
+	level_label.text = "%d" % GameState.selected_level
+	health_label.text = "❤️".repeat(max(health, 0))
 
 func _update_player_visual(direction: float) -> void:
 	if direction < 0:
