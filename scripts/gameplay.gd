@@ -94,8 +94,11 @@ func _ready() -> void:
 	player_visual.scale = PLAYER_IDLE_SCALE
 	player_visual.flip_h = false
 	$NPC/Visual.modulate = Color(1, 0.78, 0.38, 1)
+	health = GameState.player_health
 	_setup_level()
 	_refresh()
+	if health <= 0:
+		_show_game_over()
 
 func _setup_level() -> void:
 	GameState.quiz_completed = false if GameState.collected_coins == 0 and not GameState.quiz_completed else GameState.quiz_completed
@@ -296,7 +299,7 @@ func _on_enemy_entered(body: Node2D, enemy: Area2D) -> void:
 func _damage_player() -> void:
 	if is_game_over:
 		return
-	health -= 1
+	health = GameState.damage_player(1)
 	GameState.add_score(-3)
 	if health <= 0:
 		health = 0

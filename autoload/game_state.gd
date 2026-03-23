@@ -12,6 +12,8 @@ var achievements := {
 	"new_character": false
 }
 var collected_coins := 0
+var max_health := 3
+var player_health := 3
 
 var questions := {
 	1: {"question": "8 + 4 = ?", "answers": ["12", "10", "14", "11"], "correct": 0},
@@ -24,11 +26,13 @@ func reset_progress() -> void:
 	quiz_completed = false
 	collected_coins = 0
 	selected_level = 1
+	player_health = max_health
 
 func start_level(level: int) -> void:
 	selected_level = clamp(level, 1, max_level)
 	quiz_completed = false
 	collected_coins = 0
+	player_health = max_health
 
 func add_score(amount: int) -> void:
 	score += amount
@@ -47,10 +51,18 @@ func current_character_color() -> Color:
 func current_question() -> Dictionary:
 	return questions.get(selected_level, questions[1])
 
+func damage_player(amount: int = 1) -> int:
+	player_health = max(player_health - amount, 0)
+	return player_health
+
+func heal_full() -> void:
+	player_health = max_health
+
 func advance_level() -> bool:
 	if selected_level < max_level:
 		selected_level += 1
 		quiz_completed = false
 		collected_coins = 0
+		player_health = max_health
 		return true
 	return false

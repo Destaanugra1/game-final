@@ -7,6 +7,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -14,74 +16,143 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.97, 0.93, 0.78, 1)
+color = Color(0.02, 0.06, 0.14, 1)
 
-[node name="Panel" type="Panel" parent="."]
-offset_left = 210.0
-offset_top = 75.0
-offset_right = 750.0
-offset_bottom = 455.0
+[node name="Frame" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 55.0
+offset_right = 840.0
+offset_bottom = 485.0
 
-[node name="Title" type="Label" parent="Panel"]
-offset_left = 130.0
-offset_top = 28.0
-offset_right = 410.0
-offset_bottom = 72.0
+[node name="Header" type="HBoxContainer" parent="Frame"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 16.0
+offset_right = 698.0
+offset_bottom = 52.0
+
+theme_override_constants/separation = 16
+
+[node name="ScoreLabel" type="Label" parent="Frame/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.92, 0.6, 1)
+theme_override_font_sizes/font_size = 22
+text = "SCORE: 0"
+
+[node name="Tag" type="Label" parent="Frame/Header"]
+layout_mode = 2
+size_flags_horizontal = 1
+theme_override_colors/font_color = Color(0.58, 1, 0.75, 1)
+theme_override_font_sizes/font_size = 20
+text = "MATH"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 32
-text = "KERJAKAN SOAL"
 
-[node name="Question" type="Label" parent="Panel"]
-offset_left = 110.0
-offset_top = 95.0
-offset_right = 430.0
-offset_bottom = 150.0
+[node name="HealthLabel" type="Label" parent="Frame/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 22
+text = "NYAWA: 3"
+horizontal_alignment = 2
+
+[node name="TimerText" type="Label" parent="Frame"]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 58.0
+offset_right = 390.0
+offset_bottom = 84.0
+theme_override_colors/font_color = Color(0.82, 0.98, 1, 1)
+text = "27s"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 36
-text = "8 + 4 = ?"
 
-[node name="A" type="Button" parent="Panel"]
-offset_left = 100.0
-offset_top = 190.0
-offset_right = 250.0
-offset_bottom = 250.0
-text = "12"
+[node name="TimerBarBg" type="ColorRect" parent="Frame"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 86.0
+offset_right = 698.0
+offset_bottom = 108.0
+color = Color(0.06, 0.2, 0.24, 1)
 
-[node name="B" type="Button" parent="Panel"]
-offset_left = 290.0
-offset_top = 190.0
-offset_right = 440.0
-offset_bottom = 250.0
-text = "10"
+[node name="TimerBarFill" type="ColorRect" parent="Frame/TimerBarBg"]
+layout_mode = 0
+offset_right = 676.0
+offset_bottom = 22.0
+color = Color(0.1, 0.85, 0.78, 1)
 
-[node name="C" type="Button" parent="Panel"]
-offset_left = 100.0
-offset_top = 270.0
-offset_right = 250.0
-offset_bottom = 330.0
-text = "14"
+[node name="QuestionPanel" type="Panel" parent="Frame"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 126.0
+offset_right = 698.0
+offset_bottom = 190.0
 
-[node name="D" type="Button" parent="Panel"]
-offset_left = 290.0
-offset_top = 270.0
-offset_right = 440.0
-offset_bottom = 330.0
-text = "11"
+[node name="Question" type="Label" parent="Frame/QuestionPanel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 14.0
+offset_right = 660.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 30
+text = "What is 7 x 8?"
+horizontal_alignment = 1
 
-[node name="Feedback" type="Label" parent="Panel"]
+[node name="Answers" type="GridContainer" parent="Frame"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 210.0
+offset_right = 698.0
+offset_bottom = 346.0
+columns = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+
+[node name="A" type="Button" parent="Frame/Answers"]
+layout_mode = 2
+custom_minimum_size = Vector2(330, 56)
+theme_override_font_sizes/font_size = 24
+text = "A 54"
+
+[node name="B" type="Button" parent="Frame/Answers"]
+layout_mode = 2
+custom_minimum_size = Vector2(330, 56)
+theme_override_font_sizes/font_size = 24
+text = "B 56"
+
+[node name="C" type="Button" parent="Frame/Answers"]
+layout_mode = 2
+custom_minimum_size = Vector2(330, 56)
+theme_override_font_sizes/font_size = 24
+text = "C 64"
+
+[node name="D" type="Button" parent="Frame/Answers"]
+layout_mode = 2
+custom_minimum_size = Vector2(330, 56)
+theme_override_font_sizes/font_size = 24
+text = "D 49"
+
+[node name="Feedback" type="Label" parent="Frame"]
 visible = false
-offset_left = 90.0
-offset_top = 345.0
-offset_right = 450.0
+layout_mode = 0
+offset_left = 22.0
+offset_top = 362.0
+offset_right = 698.0
 offset_bottom = 392.0
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 24
 text = "BENAR!"
+horizontal_alignment = 1
 
-[node name="ContinueButton" type="Button" parent="Panel"]
+[node name="ContinueButton" type="Button" parent="Frame"]
 visible = false
-offset_left = 215.0
-offset_top = 310.0
-offset_right = 325.0
-offset_bottom = 350.0
+layout_mode = 0
+offset_left = 268.0
+offset_top = 395.0
+offset_right = 452.0
+offset_bottom = 440.0
+theme_override_font_sizes/font_size = 22
 text = "LANJUT"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
