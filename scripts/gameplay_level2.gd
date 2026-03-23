@@ -115,14 +115,43 @@ func _ready() -> void:
 func _setup_level() -> void:
 	GameState.selected_level = 2
 	GameState.quiz_completed = false if GameState.collected_coins == 0 and not GameState.quiz_completed else GameState.quiz_completed
-	$NPC.position = Vector2(1220, 424)
-	$NPC2.position = Vector2(2380, 424)
-	$Gate.position = Vector2(2960, 410)
 
 	for coin in $Coins.get_children():
 		coin.visible = true
 		coin.set_deferred("monitoring", true)
 		coin.set_deferred("monitorable", true)
+
+func _apply_level2_layout() -> void:
+	if has_node("Player/Camera2D"):
+		$Player/Camera2D.limit_right = 3040
+
+	if has_node("Environment/Ground1"): $Environment/Ground1.position = Vector2(220, 520)
+	if has_node("Environment/Ground2"): $Environment/Ground2.position = Vector2(820, 520)
+	if has_node("Environment/Ground3"): $Environment/Ground3.position = Vector2(1460, 520)
+	if has_node("Environment/Ground4"): $Environment/Ground4.position = Vector2(2100, 520)
+	if has_node("Environment/Ground5"): $Environment/Ground5.position = Vector2(2760, 520)
+
+	if has_node("Environment/Platform1"): $Environment/Platform1.position = Vector2(520, 360)
+	if has_node("Environment/Platform2"): $Environment/Platform2.position = Vector2(1180, 310)
+	if has_node("Environment/Platform3"): $Environment/Platform3.position = Vector2(2500, 300)
+
+	$NPC.position = Vector2(1240, 424)
+	$NPC2.position = Vector2(2420, 424)
+	$Gate.position = Vector2(2960, 410)
+
+	if has_node("Coins/Coin1"): $Coins/Coin1.position = Vector2(300, 390)
+	if has_node("Coins/Coin2"): $Coins/Coin2.position = Vector2(560, 325)
+	if has_node("Coins/Coin3"): $Coins/Coin3.position = Vector2(980, 390)
+	if has_node("Coins/Coin4"): $Coins/Coin4.position = Vector2(1340, 270)
+	if has_node("Coins/Coin5"): $Coins/Coin5.position = Vector2(2240, 390)
+	if has_node("Coins/Coin6"): $Coins/Coin6.position = Vector2(2620, 280)
+
+	if has_node("Enemies/Snail1"): $Enemies/Snail1.position = Vector2(700, 384)
+	if has_node("Enemies/Snail2"): $Enemies/Snail2.position = Vector2(1580, 384)
+	if has_node("Enemies/Snail3"): $Enemies/Snail3.position = Vector2(2460, 384)
+	if has_node("Enemies/Bee1"): $Enemies/Bee1.position = Vector2(1080, 220)
+	if has_node("Enemies/Bee2"): $Enemies/Bee2.position = Vector2(1840, 190)
+	if has_node("Enemies/Bee3"): $Enemies/Bee3.position = Vector2(2660, 170)
 
 func _register_enemy(enemy: Area2D, enemy_type: String, left: float, right: float, base_y: float) -> void:
 	enemy.body_entered.connect(_on_enemy_entered.bind(enemy))
