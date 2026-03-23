@@ -20,6 +20,8 @@ const DROP_BASE_TEXTURE := preload("res://assets/Tiles.png")
 @onready var attack_hitbox: Area2D = $Player/AttackHitbox
 @onready var attack_shape: CollisionShape2D = $Player/AttackHitbox/CollisionShape2D
 @onready var npc: Area2D = $NPC
+@onready var npc_dialog: Control = $NPC/DialogBubble
+@onready var npc_dialog_label: Label = $NPC/DialogBubble/Panel/Label
 @onready var gate: Area2D = $Gate
 @onready var enemies_root: Node2D = $Enemies
 @onready var drops_root: Node2D = $Drops
@@ -401,8 +403,5 @@ func _on_animation_tick() -> void:
 		var visual: Sprite2D = enemy.get_node("Visual")
 		if enemy_entry["type"] == "snail":
 			visual.frame = enemy_anim_tick % SNAIL_FRAMES
-		else:
-			visual.frame = enemy_anim_tick % BEE_FRAMES
-l.frame = enemy_anim_tick % SNAIL_FRAMES
 		else:
 			visual.frame = enemy_anim_tick % BEE_FRAMES
