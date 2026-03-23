@@ -1,0 +1,692 @@
+[gd_scene format=3 uid="uid://qnua4jcs3h8k"]
+
+[ext_resource type="Script" path="res://scripts/gameplay_level2.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://de2ex1vtungdi" path="res://Background/Background.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://crj8pkfr40day" path="res://Character/Idle/Idle-Sheet.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://bkgi0ycugvqjw" path="res://Mob/Snail/walk-Sheet.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://dgauxp7yl5aww" path="res://Mob/Small Bee/Fly/Fly-Sheet.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://bc31ww7h3ivfh" path="res://assets/Tiles.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://bynp80cnfa84y" path="res://assets/Tree-Assets.png" id="9"]
+
+[sub_resource type="RectangleShape2D" id="RectRiver"]
+size = Vector2(2500, 80)
+
+[sub_resource type="Shader" id="ShaderWater"]
+code = "shader_type canvas_item;
+
+uniform vec4 water_color : source_color = vec4(0.12, 0.45, 0.65, 0.85);
+uniform float speed = 1.0;
+uniform float wave_strength = 0.02;
+
+void fragment() {
+    vec2 uv = UV;
+    uv.x += sin(uv.y * 20.0 + TIME * speed) * wave_strength;
+    COLOR = water_color;
+    // Highlight at the top
+    if (uv.y < 0.08 + sin(uv.x * 15.0 + TIME * 1.5) * 0.02) {
+        COLOR.rgb += vec3(0.25);
+    }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="MaterialWater"]
+shader = SubResource("ShaderWater")
+shader_parameter/water_color = Color(0.12, 0.45, 0.65, 0.85)
+shader_parameter/speed = 1.0
+shader_parameter/wave_strength = 0.02
+
+[sub_resource type="AtlasTexture" id="AtlasTree1"]
+atlas = ExtResource("9")
+region = Rect2(224, 0, 112, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTree2"]
+atlas = ExtResource("9")
+region = Rect2(224, 80, 112, 80)
+
+[sub_resource type="RectangleShape2D" id="RectGround400"]
+size = Vector2(454.5, 196)
+
+[sub_resource type="AtlasTexture" id="AtlasGroundTile"]
+atlas = ExtResource("8")
+region = Rect2(0, 0, 80, 80)
+
+[sub_resource type="RectangleShape2D" id="RectGround320"]
+size = Vector2(320, 240)
+
+[sub_resource type="RectangleShape2D" id="RectPlatform"]
+size = Vector2(138.5, 24)
+
+[sub_resource type="RectangleShape2D" id="RectPlayer"]
+size = Vector2(22, 30)
+
+[sub_resource type="RectangleShape2D" id="RectAttack"]
+size = Vector2(38, 30)
+
+[sub_resource type="RectangleShape2D" id="RectNPC"]
+size = Vector2(12, 32)
+
+[sub_resource type="RectangleShape2D" id="RectEnemySnail"]
+size = Vector2(28, 13)
+
+[sub_resource type="RectangleShape2D" id="RectEnemyBee"]
+size = Vector2(34, 22)
+
+[sub_resource type="RectangleShape2D" id="RectCoin"]
+size = Vector2(18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasCoin"]
+atlas = ExtResource("8")
+region = Rect2(160, 320, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectGate"]
+size = Vector2(28, 48)
+
+[node name="Gameplay" type="Node2D" unique_id=1777211901]
+script = ExtResource("1")
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=181473934]
+color = Color(0.9, 0.95, 1, 1)
+energy = 0.8
+
+[node name="Sky" type="ColorRect" parent="." unique_id=556771583]
+z_index = -5
+offset_right = 3400.0
+offset_bottom = 600.0
+color = Color(0.05, 0.09, 0.2, 1)
+
+[node name="BackgroundArt" type="TextureRect" parent="." unique_id=816391497]
+modulate = Color(1, 1, 1, 0.5)
+z_index = -4
+offset_left = 56.0
+offset_top = 19.0
+offset_right = 2556.0
+offset_bottom = 619.0
+texture = ExtResource("2")
+stretch_mode = 1
+
+[node name="ContinuousRiver" type="Area2D" parent="." unique_id=727260417 groups=["hazards"]]
+z_index = -1
+position = Vector2(1550, 560)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContinuousRiver" unique_id=1833917765]
+shape = SubResource("RectRiver")
+
+[node name="Water" type="ColorRect" parent="ContinuousRiver" unique_id=1950174574]
+material = SubResource("MaterialWater")
+offset_left = -1250.0
+offset_top = -20.0
+offset_right = 1250.0
+offset_bottom = 60.0
+
+[node name="DecorBack" type="Node2D" parent="." unique_id=1893054248]
+z_index = -3
+
+[node name="Tree1" type="Sprite2D" parent="DecorBack" unique_id=1705359388]
+position = Vector2(141.5, 360)
+scale = Vector2(3.080357, 2)
+texture = SubResource("AtlasTree1")
+
+[node name="Tree2" type="Sprite2D" parent="DecorBack" unique_id=609161230]
+position = Vector2(820, 385)
+scale = Vector2(1.5, 1.4750001)
+texture = SubResource("AtlasTree2")
+
+[node name="Tree3" type="Sprite2D" parent="DecorBack" unique_id=1713505788]
+position = Vector2(1760, 355)
+scale = Vector2(1.4821439, 1.5)
+texture = SubResource("AtlasTree1")
+
+[node name="Tree4" type="Sprite2D" parent="DecorBack" unique_id=1131651219]
+position = Vector2(737.00006, 96)
+scale = Vector2(1.7540438, 4.3963413)
+texture = ExtResource("8")
+region_enabled = true
+region_rect = Rect2(144.65564, -1.0938606, 106.34445, 164.53389)
+
+[node name="Environment" type="Node2D" parent="." unique_id=1270148017]
+texture_filter = 1
+
+[node name="Ground1" type="StaticBody2D" parent="Environment" unique_id=1476998372]
+position = Vector2(200, 520)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground1" unique_id=214225764]
+position = Vector2(-4, 8)
+shape = SubResource("RectGround400")
+
+[node name="TextureRect" type="TextureRect" parent="Environment/Ground1" unique_id=1711587434]
+offset_left = -221.0
+offset_top = -120.0
+offset_right = 205.0
+offset_bottom = 76.0
+texture = SubResource("AtlasGroundTile")
+stretch_mode = 1
+
+[node name="Ground2" type="StaticBody2D" parent="Environment" unique_id=1333598761]
+position = Vector2(760, 520)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground2" unique_id=1826040495]
+position = Vector2(-12.5, 14)
+shape = SubResource("RectGround400")
+
+[node name="TextureRect" type="TextureRect" parent="Environment/Ground2" unique_id=252040157]
+offset_left = -192.0
+offset_top = -120.0
+offset_right = 177.0
+offset_bottom = 39.0
+texture = SubResource("AtlasGroundTile")
+stretch_mode = 1
+
+[node name="Ground3" type="StaticBody2D" parent="Environment" unique_id=2099307223]
+position = Vector2(1320, 520)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground3" unique_id=2040691035]
+position = Vector2(78.75, -24)
+shape = SubResource("RectGround400")
+
+[node name="TextureRect" type="TextureRect" parent="Environment/Ground3" unique_id=442258486]
+offset_left = -172.0
+offset_top = -133.0
+offset_right = 317.0
+offset_bottom = -53.0
+texture = SubResource("AtlasGroundTile")
+stretch_mode = 1
+
+[node name="Ground4" type="StaticBody2D" parent="Environment" unique_id=575677417]
+position = Vector2(1840, 520)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground4" unique_id=1414064257]
+shape = SubResource("RectGround320")
+
+[node name="TextureRect" type="TextureRect" parent="Environment/Ground4" unique_id=487832965]
+offset_left = -160.0
+offset_top = -120.0
+offset_right = 160.0
+offset_bottom = -40.0
+texture = SubResource("AtlasGroundTile")
+stretch_mode = 1
+
+[node name="Platform1" type="StaticBody2D" parent="Environment" unique_id=1227320030]
+position = Vector2(480, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform1" unique_id=2143368060]
+position = Vector2(8.25, 37)
+shape = SubResource("RectPlatform")
+
+[node name="TextureRect" type="TextureRect" parent="Environment/Platform1" unique_id=1041641455]
+offset_left = -68.0
+offset_top = 7.0
+offset_right = 85.0
+offset_bottom = 98.0
+texture = SubResource("AtlasGroundTile")
+stretch_mode = 1
+
+[node name="Platform2" type="StaticBody2D" parent="Environment" unique_id=478084]
+position = Vector2(1040, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform2" unique_id=2041893284]
+position = Vector2(3, 74)
+shape = SubResource("RectPlatform")
+
+[node name="TextureRect" type="TextureRect" parent="Environment/Platform2" unique_id=1043731362]
+offset_left = -81.0
+offset_top = 48.0
+offset_right = 79.0
+offset_bottom = 128.0
+texture = SubResource("AtlasGroundTile")
+stretch_mode = 1
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1758784432]
+z_index = 5
+position = Vector2(120, 380)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1017791479]
+position = Vector2(0, -8)
+shape = SubResource("RectPlayer")
+
+[node name="Visual" type="Sprite2D" parent="Player" unique_id=84918691]
+position = Vector2(0, -24)
+texture = ExtResource("3")
+hframes = 4
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1543740249]
+position = Vector2(0, -120)
+limit_left = 0
+limit_top = 0
+limit_right = 3040
+limit_bottom = 600
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="AttackHitbox" type="Area2D" parent="Player" unique_id=2108016156]
+position = Vector2(28, -10)
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/AttackHitbox" unique_id=1175605548]
+shape = SubResource("RectAttack")
+disabled = true
+
+[node name="NPC" type="Area2D" parent="." unique_id=2015113257]
+position = Vector2(1506, 388)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC" unique_id=446814477]
+position = Vector2(2, -21)
+shape = SubResource("RectNPC")
+
+[node name="Visual" type="Sprite2D" parent="NPC" unique_id=1373341211]
+modulate = Color(1, 0.78, 0.38, 1)
+position = Vector2(0.99999994, -27)
+scale = Vector2(-0.96, 0.96)
+texture = ExtResource("3")
+hframes = 4
+frame = 1
+
+[node name="DialogBubble" type="Control" parent="NPC" unique_id=660077356]
+visible = false
+z_index = 20
+layout_mode = 3
+anchors_preset = 0
+offset_left = -170.0
+offset_top = -130.0
+offset_right = 170.0
+offset_bottom = -40.0
+
+[node name="Panel" type="Panel" parent="NPC/DialogBubble" unique_id=355287769]
+layout_mode = 0
+offset_right = 340.0
+offset_bottom = 90.0
+
+[node name="Label" type="Label" parent="NPC/DialogBubble/Panel" unique_id=648911023]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 328.0
+offset_bottom = 78.0
+text = "NPC 1: Tekan E untuk soal pertama!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="NPC2" type="Area2D" parent="."]
+position = Vector2(2380, 388)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC2"]
+position = Vector2(2, -21)
+shape = SubResource("RectNPC")
+
+[node name="Visual" type="Sprite2D" parent="NPC2"]
+modulate = Color(0.8, 0.9, 1, 1)
+position = Vector2(1, -27)
+scale = Vector2(-0.96, 0.96)
+texture = ExtResource("3")
+hframes = 4
+frame = 2
+
+[node name="DialogBubble" type="Control" parent="NPC2"]
+visible = false
+z_index = 20
+layout_mode = 3
+anchors_preset = 0
+offset_left = -170.0
+offset_top = -130.0
+offset_right = 170.0
+offset_bottom = -40.0
+
+[node name="Panel" type="Panel" parent="NPC2/DialogBubble"]
+layout_mode = 0
+offset_right = 340.0
+offset_bottom = 90.0
+
+[node name="Label" type="Label" parent="NPC2/DialogBubble/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 328.0
+offset_bottom = 78.0
+text = "NPC 2: Tekan E untuk soal berikutnya!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Enemies" type="Node2D" parent="." unique_id=129552488]
+
+[node name="Snail1" type="Area2D" parent="Enemies" unique_id=1794894168 groups=["enemies"]]
+position = Vector2(620, 384)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Snail1" unique_id=53000764]
+position = Vector2(120, 34)
+shape = SubResource("RectEnemySnail")
+
+[node name="Visual" type="Sprite2D" parent="Enemies/Snail1" unique_id=1026851415]
+position = Vector2(116, 26)
+texture = ExtResource("6")
+hframes = 8
+
+[node name="Snail2" type="Area2D" parent="Enemies" unique_id=998635796 groups=["enemies"]]
+position = Vector2(1280, 384)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Snail2" unique_id=538101880]
+position = Vector2(0, -1)
+shape = SubResource("RectEnemySnail")
+
+[node name="Visual" type="Sprite2D" parent="Enemies/Snail2" unique_id=427990948]
+position = Vector2(0, -4)
+texture = ExtResource("6")
+hframes = 8
+
+[node name="Bee1" type="Area2D" parent="Enemies" unique_id=564008998 groups=["enemies"]]
+position = Vector2(930, 220)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Bee1" unique_id=1490406596]
+shape = SubResource("RectEnemyBee")
+
+[node name="Visual" type="Sprite2D" parent="Enemies/Bee1" unique_id=1323103337]
+texture = ExtResource("7")
+hframes = 4
+
+[node name="Bee2" type="Area2D" parent="Enemies" unique_id=48350076 groups=["enemies"]]
+position = Vector2(1680, 190)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Bee2" unique_id=1282204363]
+shape = SubResource("RectEnemyBee")
+
+[node name="Visual" type="Sprite2D" parent="Enemies/Bee2" unique_id=1388778649]
+texture = ExtResource("7")
+hframes = 4
+
+[node name="Snail3" type="Area2D" parent="Enemies" groups=["enemies"]]
+position = Vector2(2460, 384)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Snail3"]
+position = Vector2(0, -1)
+shape = SubResource("RectEnemySnail")
+
+[node name="Visual" type="Sprite2D" parent="Enemies/Snail3"]
+position = Vector2(0, -4)
+texture = ExtResource("6")
+hframes = 8
+
+[node name="Bee3" type="Area2D" parent="Enemies" groups=["enemies"]]
+position = Vector2(2620, 170)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Bee3"]
+shape = SubResource("RectEnemyBee")
+
+[node name="Visual" type="Sprite2D" parent="Enemies/Bee3"]
+texture = ExtResource("7")
+hframes = 4
+
+[node name="Coins" type="Node2D" parent="." unique_id=2088434822]
+
+[node name="Coin1" type="Area2D" parent="Coins" unique_id=299527681]
+position = Vector2(260, 380)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin1" unique_id=1631363916]
+shape = SubResource("RectCoin")
+
+[node name="Visual" type="Sprite2D" parent="Coins/Coin1" unique_id=598515312]
+scale = Vector2(2, 2)
+texture = SubResource("AtlasCoin")
+
+[node name="Coin2" type="Area2D" parent="Coins" unique_id=1212097324]
+position = Vector2(480, 310)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin2" unique_id=736277769]
+shape = SubResource("RectCoin")
+
+[node name="Visual" type="Sprite2D" parent="Coins/Coin2" unique_id=1008805436]
+scale = Vector2(2, 2)
+texture = SubResource("AtlasCoin")
+
+[node name="Coin3" type="Area2D" parent="Coins" unique_id=929189304]
+position = Vector2(760, 380)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin3" unique_id=1798707987]
+shape = SubResource("RectCoin")
+
+[node name="Visual" type="Sprite2D" parent="Coins/Coin3" unique_id=736013347]
+scale = Vector2(2, 2)
+texture = SubResource("AtlasCoin")
+
+[node name="Coin4" type="Area2D" parent="Coins" unique_id=1813796582]
+position = Vector2(1040, 260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin4" unique_id=175183519]
+shape = SubResource("RectCoin")
+
+[node name="Visual" type="Sprite2D" parent="Coins/Coin4" unique_id=589143553]
+scale = Vector2(2, 2)
+texture = SubResource("AtlasCoin")
+
+[node name="Coin5" type="Area2D" parent="Coins"]
+position = Vector2(2260, 370)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin5"]
+shape = SubResource("RectCoin")
+
+[node name="Visual" type="Sprite2D" parent="Coins/Coin5"]
+scale = Vector2(2, 2)
+texture = SubResource("AtlasCoin")
+
+[node name="Coin6" type="Area2D" parent="Coins"]
+position = Vector2(2620, 280)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin6"]
+shape = SubResource("RectCoin")
+
+[node name="Visual" type="Sprite2D" parent="Coins/Coin6"]
+scale = Vector2(2, 2)
+texture = SubResource("AtlasCoin")
+
+[node name="Drops" type="Node2D" parent="." unique_id=764341648]
+
+[node name="Gate" type="Area2D" parent="." unique_id=1356160222]
+position = Vector2(2960, 380)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Gate" unique_id=57549545]
+position = Vector2(-1, -8)
+shape = SubResource("RectGate")
+
+[node name="Pole" type="Polygon2D" parent="Gate" unique_id=1511887741]
+color = Color(0.88, 0.88, 0.9, 1)
+polygon = PackedVector2Array(-2, -21, 2, -21, 2, 21, -2, 21)
+
+[node name="Flag" type="Polygon2D" parent="Gate" unique_id=1813508419]
+position = Vector2(5, -18)
+color = Color(1, 0.26, 0.2, 1)
+polygon = PackedVector2Array(0, 0, 14, 4, 0, 8)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=936954464]
+
+[node name="StatusBar" type="HBoxContainer" parent="CanvasLayer" unique_id=282732104]
+offset_left = 18.0
+offset_top = 16.0
+offset_right = 420.0
+offset_bottom = 100.0
+theme_override_constants/separation = 12
+
+[node name="ScoreCard" type="Panel" parent="CanvasLayer/StatusBar" unique_id=16782387]
+custom_minimum_size = Vector2(120, 76)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/ScoreCard" unique_id=1596638957]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -27.0
+offset_right = 45.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/StatusBar/ScoreCard/VBox" unique_id=729519888]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "SKOR"
+horizontal_alignment = 1
+
+[node name="Value" type="Label" parent="CanvasLayer/StatusBar/ScoreCard/VBox" unique_id=497203681]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+
+[node name="HealthCard" type="Panel" parent="CanvasLayer/StatusBar" unique_id=833510957]
+custom_minimum_size = Vector2(120, 76)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/HealthCard" unique_id=638309707]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -27.0
+offset_right = 45.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/StatusBar/HealthCard/VBox" unique_id=1715211885]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "NYAWA"
+horizontal_alignment = 1
+
+[node name="Value" type="Label" parent="CanvasLayer/StatusBar/HealthCard/VBox" unique_id=1315801317]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "❤️❤️❤️"
+horizontal_alignment = 1
+
+[node name="LevelCard" type="Panel" parent="CanvasLayer/StatusBar" unique_id=2023210812]
+custom_minimum_size = Vector2(120, 76)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/LevelCard" unique_id=2140927296]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -27.0
+offset_right = 45.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/StatusBar/LevelCard/VBox" unique_id=205959096]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "LEVEL"
+horizontal_alignment = 1
+
+[node name="Value" type="Label" parent="CanvasLayer/StatusBar/LevelCard/VBox" unique_id=2119110900]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "1"
+horizontal_alignment = 1
+
+[node name="PopupLabel" type="Label" parent="CanvasLayer" unique_id=1072677632]
+visible = false
+offset_left = 250.0
+offset_top = 75.0
+offset_right = 710.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 24
+text = "+5 Coin"
+horizontal_alignment = 1
+
+[node name="MenuButton" type="Button" parent="CanvasLayer" unique_id=2104134750]
+offset_left = 850.0
+offset_top = 16.0
+offset_right = 930.0
+offset_bottom = 48.0
+text = "MENU"
+
+[node name="GameOverOverlay" type="Control" parent="CanvasLayer" unique_id=1825458076]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="CanvasLayer/GameOverOverlay" unique_id=540332143]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.62)
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/GameOverOverlay" unique_id=1283690650]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/GameOverOverlay/Center" unique_id=2003338027]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="TitleDark" type="Label" parent="CanvasLayer/GameOverOverlay/Center/VBox" unique_id=1904709696]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.08, 0.45, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 64
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="TitleLight" type="Label" parent="CanvasLayer/GameOverOverlay/Center/VBox" unique_id=273420988]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.53, 1, 0.65, 1)
+theme_override_font_sizes/font_size = 52
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="CanvasLayer/GameOverOverlay/Center/VBox" unique_id=73169447]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="RetryButton" type="Button" parent="CanvasLayer/GameOverOverlay/Center/VBox/Buttons" unique_id=1167197565]
+custom_minimum_size = Vector2(170, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "MAIN LAGI"
+
+[node name="MenuButton" type="Button" parent="CanvasLayer/GameOverOverlay/Center/VBox/Buttons" unique_id=1479023211]
+custom_minimum_size = Vector2(170, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "MAIN MENU"
+
+[node name="AnimationTimer" type="Timer" parent="." unique_id=1345155236]
+wait_time = 0.08
+autostart = true
+
+[node name="PopupTimer" type="Timer" parent="." unique_id=2141629726]
+one_shot = true
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=848794207]
+wait_time = 0.28
+one_shot = true
+

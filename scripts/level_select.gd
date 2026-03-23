@@ -6,5 +6,10 @@ func _ready() -> void:
 		GameState.selected_level = 1
 		get_tree().change_scene_to_file("res://scenes/gameplay.tscn")
 	)
-	$Level2.disabled = true
+	$Level2.pressed.connect(func():
+		GameState.selected_level = 2
+		get_tree().change_scene_to_file("res://scenes/gameplay_level2.tscn")
+	)
+	$Level2.disabled = false
+	$Level2.text = "LEVEL 2"
 	$Level3.disabled = true
