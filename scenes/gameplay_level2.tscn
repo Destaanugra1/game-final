@@ -186,7 +186,7 @@ stretch_mode = 1
 position = Vector2(1320, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground3" unique_id=2040691035]
-position = Vector2(78.75, -24)
+position = Vector2(0, 8)
 shape = SubResource("RectGround400")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground3" unique_id=442258486]
