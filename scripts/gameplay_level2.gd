@@ -108,6 +108,8 @@ func _ready() -> void:
 	$NPC/Visual.modulate = Color(1, 0.78, 0.38, 1)
 	health = GameState.player_health
 	_setup_level()
+	if GameState.return_scene == "res://scenes/gameplay_level2.tscn":
+		player.global_position = GameState.return_position
 	_refresh()
 	if health <= 0:
 		_show_game_over()
