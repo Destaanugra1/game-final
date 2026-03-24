@@ -91,6 +91,7 @@ func _ready() -> void:
 	npc_dialog_label.text = "NPC 1: Tekan E untuk soal pertama!"
 	npc2_dialog_label.text = "NPC 2: Tekan E untuk soal berikutnya!"
 	_ensure_level2_floor()
+	_ensure_level2_obstacles()
 	_apply_level2_layout()
 
 	for coin in $Coins.get_children():
