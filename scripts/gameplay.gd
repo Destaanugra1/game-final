@@ -63,6 +63,10 @@ var is_game_over := false
 var can_talk_npc := false
 
 func _ready() -> void:
+	if GameState.selected_level == 2:
+		get_tree().change_scene_to_file("res://scenes/gameplay_level2.tscn")
+		return
+
 	drop_texture = AtlasTexture.new()
 	drop_texture.atlas = DROP_BASE_TEXTURE
 	drop_texture.region = Rect2(176, 320, 16, 16)

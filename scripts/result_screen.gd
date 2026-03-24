@@ -7,6 +7,9 @@ func _ready() -> void:
 
 func _on_continue() -> void:
 	if GameState.advance_level():
-		get_tree().change_scene_to_file("res://scenes/gameplay.tscn")
+		if GameState.selected_level == 2:
+			get_tree().change_scene_to_file("res://scenes/gameplay_level2.tscn")
+		else:
+			get_tree().change_scene_to_file("res://scenes/gameplay.tscn")
 	else:
 		get_tree().change_scene_to_file("res://scenes/achievement.tscn")
