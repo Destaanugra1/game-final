@@ -188,11 +188,15 @@ func _physics_process(delta: float) -> void:
 	if can_talk_npc and Input.is_key_pressed(KEY_E):
 		can_talk_npc = false
 		npc_dialog.visible = false
+		GameState.return_scene = "res://scenes/gameplay_level2.tscn"
+		GameState.return_position = player.global_position
 		get_tree().change_scene_to_file("res://scenes/quiz_screen.tscn")
 		return
 	if can_talk_npc2 and Input.is_key_pressed(KEY_E):
 		can_talk_npc2 = false
 		npc2_dialog.visible = false
+		GameState.return_scene = "res://scenes/gameplay_level2.tscn"
+		GameState.return_position = player.global_position
 		get_tree().change_scene_to_file("res://scenes/quiz_screen.tscn")
 		return
 	if player.global_position.y > 620:

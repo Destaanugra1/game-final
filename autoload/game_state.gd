@@ -14,6 +14,8 @@ var achievements := {
 var collected_coins := 0
 var max_health := 3
 var player_health := 3
+var return_scene := "res://scenes/gameplay.tscn"
+var return_position := Vector2(120, 420)
 
 var questions := {
 	1: {"question": "8 + 4 = ?", "answers": ["12", "10", "14", "11"], "correct": 0},

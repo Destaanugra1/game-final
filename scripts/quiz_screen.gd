@@ -26,7 +26,7 @@ func _ready() -> void:
 	$Frame/Answers/B.pressed.connect(_answer.bind(1))
 	$Frame/Answers/C.pressed.connect(_answer.bind(2))
 	$Frame/Answers/D.pressed.connect(_answer.bind(3))
-	continue_button.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/gameplay.tscn"))
+	continue_button.pressed.connect(func(): get_tree().change_scene_to_file(GameState.return_scene))
 	timer.timeout.connect(_on_timer_tick)
 
 	_refresh_hud()
