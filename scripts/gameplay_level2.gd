@@ -131,13 +131,41 @@ func _ensure_level2_floor() -> void:
 		return
 	var floor := StaticBody2D.new()
 	floor.name = "Level2Floor"
-	floor.position = Vector2(1700, 560)
+	floor.position = Vector2(1700, 520)
 	var col := CollisionShape2D.new()
 	var rect := RectangleShape2D.new()
-	rect.size = Vector2(3350, 42)
+	rect.size = Vector2(3350, 76)
 	col.shape = rect
 	floor.add_child(col)
 	$Environment.add_child(floor)
+
+func _ensure_level2_obstacles() -> void:
+	if has_node("Environment/ObstacleA"):
+		return
+	_add_obstacle("ObstacleA", Vector2(940, 484), Vector2(64, 72), Color(0.5, 0.22, 0.2, 1))
+	_add_obstacle("ObstacleB", Vector2(1740, 484), Vector2(84, 84), Color(0.42, 0.2, 0.18, 1))
+	_add_obstacle("ObstacleC", Vector2(2280, 484), Vector2(72, 96), Color(0.58, 0.24, 0.18, 1))
+	_add_obstacle("ObstacleD", Vector2(2680, 484), Vector2(92, 110), Color(0.42, 0.16, 0.16, 1))
+
+func _add_obstacle(name: String, pos: Vector2, size: Vector2, color: Color) -> void:
+	var body := StaticBody2D.new()
+	body.name = name
+	body.position = pos
+	var col := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = size
+	col.shape = rect
+	var visual := Polygon2D.new()
+	visual.color = color
+	visual.polygon = PackedVector2Array(
+		-size.x * 0.5, -size.y * 0.5,
+		size.x * 0.5, -size.y * 0.5,
+		size.x * 0.5, size.y * 0.5,
+		-size.x * 0.5, size.y * 0.5
+	)
+	body.add_child(col)
+	body.add_child(visual)
+	$Environment.add_child(body)
 
 func _apply_level2_layout() -> void:
 	if has_node("Player/Camera2D"):
