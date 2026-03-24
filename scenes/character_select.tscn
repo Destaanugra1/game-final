@@ -14,58 +14,32 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.95, 0.86, 0.7, 1)
+color = Color(0.04, 0.07, 0.16, 1)
 
 [node name="Title" type="Label" parent="."]
-offset_left = 250.0
-offset_top = 40.0
-offset_right = 710.0
+layout_mode = 0
+offset_left = 160.0
+offset_top = 42.0
+offset_right = 800.0
 offset_bottom = 95.0
-horizontal_alignment = 1
+theme_override_colors/font_color = Color(1, 0.88, 0.22, 1)
 theme_override_font_sizes/font_size = 36
-text = "PILIH KARAKTER"
-
-[node name="Info" type="Label" parent="."]
-offset_left = 235.0
-offset_top = 95.0
-offset_right = 725.0
-offset_bottom = 125.0
+text = "— PILIH KARAKTER —"
 horizontal_alignment = 1
-text = "Karakter baru terbuka kalau score bertambah"
 
-[node name="Card1" type="Button" parent="."]
-offset_left = 85.0
-offset_top = 170.0
-offset_right = 270.0
-offset_bottom = 365.0
-text = "AKSA\nUNLOCK"
-
-[node name="Card2" type="Button" parent="."]
-offset_left = 388.0
-offset_top = 170.0
-offset_right = 573.0
-offset_bottom = 365.0
-text = "NARA\nLOCKED"
-
-[node name="Card3" type="Button" parent="."]
-offset_left = 690.0
-offset_top = 170.0
-offset_right = 875.0
-offset_bottom = 365.0
-text = "PIXEL\nLOCKED"
-
-[node name="SelectedLabel" type="Label" parent="."]
-offset_left = 260.0
-offset_top = 405.0
-offset_right = 700.0
-offset_bottom = 448.0
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 24
-text = "Terpilih: AKSA"
+[node name="CardsRow" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 120.0
+offset_right = 880.0
+offset_bottom = 390.0
+theme_override_constants/separation = 20
 
 [node name="BackButton" type="Button" parent="."]
-offset_left = 30.0
-offset_top = 24.0
-offset_right = 126.0
-offset_bottom = 66.0
-text = "KEMBALI"
+layout_mode = 0
+offset_left = 360.0
+offset_top = 420.0
+offset_right = 600.0
+offset_bottom = 468.0
+theme_override_font_sizes/font_size = 20
+text = "← KEMBALI"

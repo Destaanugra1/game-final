@@ -1,0 +1,290 @@
+extends Node2D
+
+const SPEED := 205.0
+const JUMP := -390.0
+const GRAVITY := 920.0
+const ENEMY_SPEED_GROUND := 78.0
+const ENEMY_SPEED_BEE := 72.0
+const MAP_LEFT := 12.0
+const MAP_RIGHT := 1908.0
+
+const IDLE_TEXTURE := preload("res://Character/Idle/Idle-Sheet.png")
+const RUN_TEXTURE := preload("res://Character/Run/Run-Sheet.png")
+
+@onready var player: CharacterBody2D = $Player
+@onready var player_visual: Sprite2D = $Player/Visual
+@onready var attack_hitbox: Area2D = $Player/AttackHitbox
+@onready var attack_shape: CollisionShape2D = $Player/AttackHitbox/CollisionShape2D
+@onready var npc: Area2D = $NPC
+@onready var gate: Area2D = $Gate
+@onready var enemies_root: Node2D = $Enemies
+@onready var popup: Label = $CanvasLayer/PopupLabel
+@onready var score_label: Label = $CanvasLayer/HudPanel/Margin/VBox/StatsRow/ScoreLabel
+@onready var level_label: Label = $CanvasLayer/HudPanel/Margin/VBox/StatsRow/LevelLabel
+@onready var popup_timer: Timer = $PopupTimer
+@onready var animation_timer: Timer = $AnimationTimer
+@onready var attack_timer: Timer = $AttackTimer
+
+const PLAYER_IDLE_POS := Vector2(0, -24)
+const PLAYER_IDLE_SCALE := Vector2(1.0, 1.0)
+const PLAYER_RUN_POS := Vector2(0, -24)
+const PLAYER_RUN_SCALE := Vector2(0.9, 0.9)
+const PLAYER_RUN_FRAMES := 8
+const PLAYER_ATTACK_OFFSET_RIGHT := Vector2(28, -10)
+const PLAYER_ATTACK_OFFSET_LEFT := Vector2(-28, -10)
+const SNAIL_FRAMES := 8
+const BEE_FRAMES := 4
+
+var player_anim_tick := 0
+var enemy_anim_tick := 0
+var using_run_sheet := false
+var facing_right := true
+var is_attacking := false
+var enemy_data: Array[Dictionary] = []
+
+func _ready() -> void:
+	$CanvasLayer/MenuButton.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/main_menu.tscn"))
+	npc.body_entered.connect(_on_npc_entered)
+	gate.body_entered.connect(_on_gate_entered)
+	popup_timer.timeout.connect(func(): popup.visible = false)
+	animation_timer.timeout.connect(_on_animation_tick)
+	attack_timer.timeout.connect(_end_attack)
+	attack_hitbox.area_entered.connect(_on_attack_hitbox_area_entered)
+
+	for coin in $Coins.get_children():
+		coin.body_entered.connect(_on_coin_entered.bind(coin))
+
+	_register_enemy($Enemies/Snail1, "snail", 520.0, 900.0, 448.0)
+	_register_enemy($Enemies/Snail2, "snail", 1180.0, 1500.0, 448.0)
+	_register_enemy($Enemies/Bee1, "bee", 820.0, 1210.0, 220.0)
+	_register_enemy($Enemies/Bee2, "bee", 1500.0, 1840.0, 190.0)
+
+	player_visual.modulate = GameState.current_character_color()
+	player_visual.position = PLAYER_IDLE_POS
+	player_visual.scale = PLAYER_IDLE_SCALE
+	player_visual.flip_h = false
+	$NPC/Visual.modulate = Color(1, 0.78, 0.38, 1)
+	_setup_level()
+	_refresh()
+
+func _register_enemy(enemy: Area2D, enemy_type: String, left: float, right: float, base_y: float) -> void:
+	enemy.body_entered.connect(_on_enemy_entered.bind(enemy))
+	enemy_data.append({
+		"node": enemy,
+		"type": enemy_type,
+		"left": left,
+		"right": right,
+		"base_y": base_y,
+		"dir": -1.0 if enemy_type == "snail" else 1.0,
+		"phase": randf() * TAU,
+	})
+	var visual: Sprite2D = enemy.get_node("Visual")
+	visual.flip_h = enemy_type == "bee"
+
+func _physics_process(delta: float) -> void:
+	if not player.is_on_floor():
+		player.velocity.y += GRAVITY * delta
+
+	if (Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_up") or Input.is_key_pressed(KEY_W)) and player.is_on_floor():
+		player.velocity.y = JUMP
+
+	if Input.is_key_pressed(KEY_J) and not is_attacking:
+		_start_attack()
+
+	var direction := Input.get_axis("ui_left", "ui_right")
+	if direction == 0:
+		direction = int(Input.is_key_pressed(KEY_D)) - int(Input.is_key_pressed(KEY_A))
+	player.velocity.x = direction * SPEED
+	player.move_and_slide()
+	player.global_position.x = clamp(player.global_position.x, MAP_LEFT, MAP_RIGHT)
+	if player.global_position.y > 620:
+		_reset_player()
+
+	_update_enemies(delta)
+	_update_player_visual(direction)
+
+func _setup_level() -> void:
+	GameState.quiz_completed = false if GameState.collected_coins == 0 and not GameState.quiz_completed else GameState.quiz_completed
+	match GameState.selected_level:
+		1:
+			$Platform1.position = Vector2(520, 355)
+			$Platform2.position = Vector2(1160, 315)
+			$Platform3.position = Vector2(1560, 280)
+			$NPC.position = Vector2(1480, 424)
+			$Gate.position = Vector2(1840, 410)
+			$Coins/Coin1.position = Vector2(260, 420)
+			$Coins/Coin2.position = Vector2(520, 315)
+			$Coins/Coin3.position = Vector2(980, 420)
+			$Coins/Coin4.position = Vector2(1160, 275)
+			$Coins/Coin5.position = Vector2(1560, 240)
+			$Coins/Coin6.position = Vector2(1760, 420)
+		2:
+			$Platform1.position = Vector2(430, 330)
+			$Platform2.position = Vector2(1010, 290)
+			$Platform3.position = Vector2(1500, 250)
+			$NPC.position = Vector2(1540, 424)
+			$Gate.position = Vector2(1840, 410)
+			$Coins/Coin1.position = Vector2(220, 420)
+			$Coins/Coin2.position = Vector2(430, 290)
+			$Coins/Coin3.position = Vector2(870, 420)
+			$Coins/Coin4.position = Vector2(1010, 250)
+			$Coins/Coin5.position = Vector2(1500, 210)
+			$Coins/Coin6.position = Vector2(1710, 420)
+		3:
+			$Platform1.position = Vector2(610, 340)
+			$Platform2.position = Vector2(1200, 280)
+			$Platform3.position = Vector2(1650, 230)
+			$NPC.position = Vector2(1520, 424)
+			$Gate.position = Vector2(1840, 410)
+			$Coins/Coin1.position = Vector2(250, 420)
+			$Coins/Coin2.position = Vector2(610, 300)
+			$Coins/Coin3.position = Vector2(1030, 420)
+			$Coins/Coin4.position = Vector2(1200, 240)
+			$Coins/Coin5.position = Vector2(1650, 190)
+			$Coins/Coin6.position = Vector2(1780, 420)
+
+	for coin in $Coins.get_children():
+		coin.visible = true
+		coin.set_deferred("monitoring", true)
+		coin.set_deferred("monitorable", true)
+
+func _update_enemies(delta: float) -> void:
+	for enemy_entry in enemy_data:
+		var enemy: Area2D = enemy_entry["node"]
+		if not is_instance_valid(enemy):
+			continue
+		var enemy_type: String = enemy_entry["type"]
+		var visual: Sprite2D = enemy.get_node("Visual")
+		if enemy_type == "snail":
+			enemy.position.x += ENEMY_SPEED_GROUND * float(enemy_entry["dir"]) * delta
+			if enemy.position.x <= float(enemy_entry["left"]):
+				enemy_entry["dir"] = 1.0
+				visual.flip_h = true
+			elif enemy.position.x >= float(enemy_entry["right"]):
+				enemy_entry["dir"] = -1.0
+				visual.flip_h = false
+		else:
+			enemy.position.x += ENEMY_SPEED_BEE * float(enemy_entry["dir"]) * delta
+			enemy.position.y = float(enemy_entry["base_y"]) + sin(Time.get_ticks_msec() / 250.0 + float(enemy_entry["phase"])) * 18.0
+			if enemy.position.x <= float(enemy_entry["left"]):
+				enemy_entry["dir"] = 1.0
+				visual.flip_h = true
+			elif enemy.position.x >= float(enemy_entry["right"]):
+				enemy_entry["dir"] = -1.0
+				visual.flip_h = false
+
+func _start_attack() -> void:
+	is_attacking = true
+	attack_hitbox.monitoring = true
+	attack_hitbox.monitorable = true
+	attack_shape.disabled = false
+	attack_hitbox.position = PLAYER_ATTACK_OFFSET_RIGHT if facing_right else PLAYER_ATTACK_OFFSET_LEFT
+	_show_popup("Serang!")
+	attack_timer.start()
+
+func _end_attack() -> void:
+	is_attacking = false
+	attack_hitbox.monitoring = false
+	attack_hitbox.monitorable = false
+	attack_shape.disabled = true
+
+func _on_attack_hitbox_area_entered(area: Area2D) -> void:
+	if not area.is_in_group("enemies"):
+		return
+	if not is_instance_valid(area):
+		return
+	GameState.add_score(10)
+	_show_popup("Musuh kalah! +10")
+	area.queue_free()
+	_refresh()
+
+func _on_coin_entered(body: Node2D, coin: Area2D) -> void:
+	if body != player or not coin.visible:
+		return
+	coin.visible = false
+	coin.set_deferred("monitoring", false)
+	coin.set_deferred("monitorable", false)
+	GameState.collected_coins += 1
+	GameState.add_score(5)
+	if GameState.collected_coins >= 6:
+		GameState.achievements["all_coins"] = true
+	_show_popup("+5 Coin")
+	_refresh()
+
+func _on_npc_entered(body: Node2D) -> void:
+	if body == player:
+		get_tree().change_scene_to_file("res://scenes/quiz_screen.tscn")
+
+func _on_gate_entered(body: Node2D) -> void:
+	if body != player:
+		return
+	if not GameState.quiz_completed:
+		_show_popup("Selesaikan soal dulu!")
+		return
+	get_tree().change_scene_to_file("res://scenes/result_screen.tscn")
+
+func _on_enemy_entered(body: Node2D, enemy: Area2D) -> void:
+	if body != player:
+		return
+	GameState.add_score(-3)
+	_show_popup("Kena musuh! -3")
+	_reset_player()
+	_refresh()
+
+func _reset_player() -> void:
+	player.global_position = Vector2(120, 420)
+	player.velocity = Vector2.ZERO
+
+func _show_popup(text: String) -> void:
+	popup.text = text
+	popup.visible = true
+	popup_timer.start()
+
+func _refresh() -> void:
+	score_label.text = "Score: %d" % GameState.score
+	level_label.text = "Level %d" % GameState.selected_level
+
+func _update_player_visual(direction: float) -> void:
+	if direction < 0:
+		facing_right = false
+		player_visual.flip_h = true
+	elif direction > 0:
+		facing_right = true
+		player_visual.flip_h = false
+
+	var should_run: bool = abs(player.velocity.x) > 5.0 and player.is_on_floor()
+	if should_run and not using_run_sheet:
+		player_visual.texture = RUN_TEXTURE
+		player_visual.hframes = PLAYER_RUN_FRAMES
+		player_visual.frame = 0
+		player_visual.position = PLAYER_RUN_POS
+		player_visual.scale = PLAYER_RUN_SCALE
+		using_run_sheet = true
+	elif not should_run and using_run_sheet:
+		player_visual.texture = IDLE_TEXTURE
+		player_visual.hframes = 4
+		player_visual.frame = 0
+		player_visual.position = PLAYER_IDLE_POS
+		player_visual.scale = PLAYER_IDLE_SCALE
+		using_run_sheet = false
+
+	attack_hitbox.position = PLAYER_ATTACK_OFFSET_RIGHT if facing_right else PLAYER_ATTACK_OFFSET_LEFT
+
+func _on_animation_tick() -> void:
+	player_anim_tick += 1
+	enemy_anim_tick += 1
+
+	if using_run_sheet:
+		player_visual.frame = player_anim_tick % PLAYER_RUN_FRAMES
+	else:
+		player_visual.frame = player_anim_tick % 4
+
+	for enemy_entry in enemy_data:
+		var enemy: Area2D = enemy_entry["node"]
+		if not is_instance_valid(enemy):
+			continue
+		var visual: Sprite2D = enemy.get_node("Visual")
+		if enemy_entry["type"] == "snail":
+			visual.frame = enemy_anim_tick % SNAIL_FRAMES
+		else:
+			visual.frame = enemy_anim_tick % BEE_FRAMES

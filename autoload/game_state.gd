@@ -1,48 +1,96 @@
 extends Node
 
-var score := 0
+var score              := 0
 var selected_character := 0
-var unlocked_characters := [true, false, false]
-var selected_level := 1
-var max_level := 3
-var quiz_completed := false
-var achievements := {
-	"first_quiz": false,
-	"all_coins": false,
-	"new_character": false
-}
-var collected_coins := 0
-var max_health := 3
-var player_health := 3
-var return_scene := "res://scenes/gameplay.tscn"
-var return_position := Vector2(120, 420)
+var unlocked_characters: Array[bool] = [true, false, false]
+var selected_level     := 1
+var max_level          := 3
+var quiz_completed     := false
+var achievements := {"first_quiz": false, "all_coins": false, "new_character": false}
+var collected_coins    := 0
+var max_health         := 3
+var player_health      := 3
+var return_scene       := "res://scenes/gameplay.tscn"
+var return_position    := Vector2(120, 420)
+var killed_enemies     : Array[String] = []
+var active_question_key := "math_l1"
 
-var questions := {
-	1: {"question": "8 + 4 = ?", "answers": ["12", "10", "14", "11"], "correct": 0},
-	2: {"question": "9 x 3 = ?", "answers": ["21", "27", "24", "18"], "correct": 1},
-	3: {"question": "20 - 7 = ?", "answers": ["12", "13", "15", "14"], "correct": 1}
+const CHARACTER_DATA := [
+	{"name": "AKSA",  "stat": "Logika +2",   "hint": "Karakter awal"},
+	{"name": "NARA",  "stat": "Kekuatan +2", "hint": "Selesaikan soal Sains SD"},
+	{"name": "PIXEL", "stat": "Reflex +2",   "hint": "Selesaikan soal Sains SMP"},
+]
+
+const QUIZ_UNLOCK_MAP := {
+	"sains_sd_1": 1,  "sains_sd_2": 1,  "sains_sd_3": 1,
+	"sains_smp_1": 2, "sains_smp_2": 2, "sains_smp_3": 2,
+}
+
+var question_banks := {
+	"math_l1": {
+		"question": "8 + 4 = ?",
+		"answers": ["12", "10", "14", "11"], "correct": 0,
+		"explanation": "8 + 4 = 12. Penjumlahan adalah operasi dasar matematika.\nCoba hitung: 8 jari lalu tambah 4 jari = 12 jari! 🖐️"
+	},
+	"math_l2": {
+		"question": "9 x 3 = ?",
+		"answers": ["21", "27", "24", "18"], "correct": 1,
+		"explanation": "9 x 3 = 27. Perkalian = penjumlahan berulang: 9+9+9 = 27.\nTrik cepat: (10×3) − 3 = 30 − 3 = 27! 💡"
+	},
+	"math_l3": {
+		"question": "20 - 7 = ?",
+		"answers": ["12", "13", "15", "14"], "correct": 1,
+		"explanation": "20 - 7 = 13. Mulai dari 20, mundur 7 langkah:\n20 → 19 → 18 → 17 → 16 → 15 → 14 → 13 ✅"
+	},
+	"sains_sd_1": {
+		"question": "Apa fungsi utama akar pada tumbuhan?",
+		"answers": ["Menyerap air & mineral", "Membuat makanan", "Menghirup oksigen", "Menyimpan biji"],
+		"correct": 0,
+		"explanation": "Akar berfungsi menyerap air dan mineral dari tanah untuk dikirim ke seluruh tubuh tumbuhan. Akar juga menopang tumbuhan agar berdiri kokoh! 🌱"
+	},
+	"sains_sd_2": {
+		"question": "Benda yang bisa menarik besi disebut…",
+		"answers": ["Konduktor", "Isolator", "Magnet", "Generator"],
+		"correct": 2,
+		"explanation": "Magnet adalah benda yang memiliki gaya tarik terhadap besi atau baja.\nMagnet memiliki dua kutub: Utara (N) dan Selatan (S). Kutub berbeda saling tarik! 🧲"
+	},
+	"sains_sd_3": {
+		"question": "Hewan yang mengalami metamorfosis sempurna adalah…",
+		"answers": ["Kucing", "Katak", "Kupu-kupu", "Ikan"],
+		"correct": 2,
+		"explanation": "Kupu-kupu mengalami metamorfosis sempurna:\nTelur → Ulat (larva) → Kepompong (pupa) → Kupu-kupu dewasa (imago). Ada 4 tahap! 🦋"
+	},
+	"sains_smp_1": {
+		"question": "Organel sel yang berfungsi sebagai 'dapur energi' adalah…",
+		"answers": ["Nukleus", "Ribosom", "Mitokondria", "Vakuola"],
+		"correct": 2,
+		"explanation": "Mitokondria adalah organel tempat respirasi seluler yang menghasilkan energi (ATP).\nItulah mengapa mitokondria disebut 'pembangkit listrik sel'! ⚡"
+	},
+	"sains_smp_2": {
+		"question": "Rumus kimia air adalah…",
+		"answers": ["CO₂", "H₂O", "O₂", "NaCl"],
+		"correct": 1,
+		"explanation": "Air = H₂O → 2 atom Hidrogen + 1 atom Oksigen.\nCO₂=karbon dioksida, O₂=oksigen, NaCl=garam dapur. 💧"
+	},
+	"sains_smp_3": {
+		"question": "Gaya gravitasi bumi menyebabkan benda jatuh dengan percepatan sekitar…",
+		"answers": ["5 m/s²", "15 m/s²", "10 m/s²", "20 m/s²"],
+		"correct": 2,
+		"explanation": "Percepatan gravitasi g ≈ 9.8 m/s² (dibulatkan 10 m/s²).\nArtinya setiap detik, kecepatan benda jatuh bertambah 10 m/s. Rumus: F = m × g 🌍"
+	},
 }
 
 func reset_progress() -> void:
-	score = 0
-	quiz_completed = false
-	collected_coins = 0
-	selected_level = 1
-	player_health = max_health
+	score = 0;  quiz_completed = false;  collected_coins = 0
+	selected_level = 1;  player_health = max_health;  killed_enemies.clear()
 
 func start_level(level: int) -> void:
 	selected_level = clamp(level, 1, max_level)
-	quiz_completed = false
-	collected_coins = 0
-	player_health = max_health
+	quiz_completed = false;  collected_coins = 0
+	player_health  = max_health;  killed_enemies.clear()
 
 func add_score(amount: int) -> void:
 	score += amount
-	if score >= 15:
-		unlocked_characters[1] = true
-		achievements["new_character"] = true
-	if score >= 30:
-		unlocked_characters[2] = true
 
 func current_character_name() -> String:
 	return ["Aksa", "Nara", "Pixel"][selected_character]
@@ -51,7 +99,18 @@ func current_character_color() -> Color:
 	return [Color(0.23,0.5,0.96,1), Color(0.58,0.24,0.9,1), Color(0.1,0.78,0.78,1)][selected_character]
 
 func current_question() -> Dictionary:
-	return questions.get(selected_level, questions[1])
+	return question_banks.get(active_question_key, question_banks["math_l1"])
+
+func set_question_key(key: String) -> void:
+	if key in question_banks:
+		active_question_key = key
+
+func unlock_character_by_quiz(question_key: String) -> void:
+	if question_key in QUIZ_UNLOCK_MAP:
+		var idx: int = QUIZ_UNLOCK_MAP[question_key]
+		if idx < unlocked_characters.size() and not unlocked_characters[idx]:
+			unlocked_characters[idx] = true
+			achievements["new_character"] = true
 
 func damage_player(amount: int = 1) -> int:
 	player_health = max(player_health - amount, 0)
@@ -63,8 +122,6 @@ func heal_full() -> void:
 func advance_level() -> bool:
 	if selected_level < max_level:
 		selected_level += 1
-		quiz_completed = false
-		collected_coins = 0
-		player_health = max_health
+		quiz_completed = false;  collected_coins = 0;  player_health = max_health
 		return true
 	return false

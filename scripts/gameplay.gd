@@ -159,6 +159,7 @@ func _physics_process(delta: float) -> void:
 	if can_talk_npc and Input.is_key_pressed(KEY_E):
 		can_talk_npc = false
 		npc_dialog.visible = false
+		GameState.set_question_key("math_l1")
 		GameState.return_scene = "res://scenes/gameplay.tscn"
 		GameState.return_position = player.global_position
 		get_tree().change_scene_to_file("res://scenes/quiz_screen.tscn")
@@ -299,7 +300,7 @@ func _on_gate_entered(body: Node2D) -> void:
 		return
 	get_tree().change_scene_to_file("res://scenes/result_screen.tscn")
 
-func _on_enemy_entered(body: Node2D, enemy: Area2D) -> void:
+func _on_enemy_entered(body: Node2D, _enemy: Area2D) -> void:
 	if body != player:
 		return
 	_damage_player()

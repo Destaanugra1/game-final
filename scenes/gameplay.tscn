@@ -66,7 +66,7 @@ size = Vector2(38, 30)
 size = Vector2(12, 32)
 
 [sub_resource type="RectangleShape2D" id="RectEnemySnail"]
-size = Vector2(28, 16)
+size = Vector2(28, 13)
 
 [sub_resource type="RectangleShape2D" id="RectEnemyBee"]
 size = Vector2(34, 22)
@@ -80,21 +80,6 @@ region = Rect2(160, 320, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectGate"]
 size = Vector2(28, 48)
-
-[sub_resource type="StyleBoxFlat" id="StyleHudPanel"]
-bg_color = Color(0.08, 0.12, 0.18, 0.65)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.8, 0.9, 1, 0.3)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-shadow_color = Color(0, 0, 0, 0.4)
-shadow_size = 8
-shadow_offset = Vector2(0, 4)
 
 [node name="Gameplay" type="Node2D" unique_id=1777211901]
 script = ExtResource("1")
@@ -112,10 +97,10 @@ color = Color(0.37, 0.74, 0.88, 1)
 [node name="BackgroundArt" type="TextureRect" parent="." unique_id=816391497]
 modulate = Color(1, 1, 1, 0.5)
 z_index = -4
-offset_left = -14.0
-offset_top = -19.0
-offset_right = 2486.0
-offset_bottom = 581.0
+offset_left = 56.0
+offset_top = 19.0
+offset_right = 2556.0
+offset_bottom = 619.0
 texture = ExtResource("2")
 stretch_mode = 1
 
@@ -137,13 +122,13 @@ offset_bottom = 60.0
 z_index = -3
 
 [node name="Tree1" type="Sprite2D" parent="DecorBack" unique_id=1705359388]
-position = Vector2(182, 360)
-scale = Vector2(2.357143, 2)
+position = Vector2(141.5, 360)
+scale = Vector2(3.080357, 2)
 texture = SubResource("AtlasTree1")
 
 [node name="Tree2" type="Sprite2D" parent="DecorBack" unique_id=609161230]
-position = Vector2(850, 380)
-scale = Vector2(1.5, 1.5)
+position = Vector2(820, 385)
+scale = Vector2(1.5, 1.4750001)
 texture = SubResource("AtlasTree2")
 
 [node name="Tree3" type="Sprite2D" parent="DecorBack" unique_id=1713505788]
@@ -152,8 +137,8 @@ scale = Vector2(1.4821439, 1.5)
 texture = SubResource("AtlasTree1")
 
 [node name="Tree4" type="Sprite2D" parent="DecorBack" unique_id=1131651219]
-position = Vector2(771, 269)
-scale = Vector2(2.357143, 2)
+position = Vector2(737.00006, 96)
+scale = Vector2(1.7540438, 4.3963413)
 texture = ExtResource("8")
 region_enabled = true
 region_rect = Rect2(144.65564, -1.0938606, 106.34445, 164.53389)
@@ -195,7 +180,7 @@ stretch_mode = 1
 position = Vector2(1320, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground3" unique_id=2040691035]
-position = Vector2(78.75, -24)
+position = Vector2(80, -20)
 shape = SubResource("RectGround400")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground3" unique_id=442258486]
@@ -228,10 +213,10 @@ position = Vector2(8.25, 37)
 shape = SubResource("RectPlatform")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Platform1" unique_id=1041641455]
-offset_left = -71.0
-offset_top = 5.0
-offset_right = 82.0
-offset_bottom = 96.0
+offset_left = -68.0
+offset_top = 7.0
+offset_right = 85.0
+offset_bottom = 98.0
 texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
@@ -290,13 +275,13 @@ shape = SubResource("RectNPC")
 
 [node name="Visual" type="Sprite2D" parent="NPC" unique_id=1373341211]
 modulate = Color(1, 0.78, 0.38, 1)
-position = Vector2(0.99999994, -27)
+position = Vector2(2.9999998, -50)
 scale = Vector2(-0.96, 0.96)
 texture = ExtResource("3")
 hframes = 4
 frame = 1
 
-[node name="DialogBubble" type="Control" parent="NPC"]
+[node name="DialogBubble" type="Control" parent="NPC" unique_id=660077356]
 visible = false
 z_index = 20
 layout_mode = 3
@@ -306,21 +291,21 @@ offset_top = -130.0
 offset_right = 170.0
 offset_bottom = -40.0
 
-[node name="Panel" type="Panel" parent="NPC/DialogBubble"]
+[node name="Panel" type="Panel" parent="NPC/DialogBubble" unique_id=355287769]
 layout_mode = 0
 offset_right = 340.0
 offset_bottom = 90.0
 
-[node name="Label" type="Label" parent="NPC/DialogBubble/Panel"]
+[node name="Label" type="Label" parent="NPC/DialogBubble/Panel" unique_id=648911023]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 12.0
 offset_right = 328.0
 offset_bottom = 78.0
 text = "Hai petualang! Aku punya tantangan untukmu. Tekan E untuk mulai!"
-autowrap_mode = 3
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="Enemies" type="Node2D" parent="." unique_id=129552488]
 
@@ -328,11 +313,11 @@ vertical_alignment = 1
 position = Vector2(620, 384)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Snail1" unique_id=53000764]
-position = Vector2(34, 38)
+position = Vector2(120, 34)
 shape = SubResource("RectEnemySnail")
 
 [node name="Visual" type="Sprite2D" parent="Enemies/Snail1" unique_id=1026851415]
-position = Vector2(35, 26)
+position = Vector2(116, 26)
 texture = ExtResource("6")
 hframes = 8
 
@@ -424,25 +409,24 @@ color = Color(0.88, 0.88, 0.9, 1)
 polygon = PackedVector2Array(-2, -21, 2, -21, 2, 21, -2, 21)
 
 [node name="Flag" type="Polygon2D" parent="Gate" unique_id=1813508419]
-position = Vector2(8, -10)
+position = Vector2(5, -18)
 color = Color(1, 0.26, 0.2, 1)
 polygon = PackedVector2Array(0, 0, 14, 4, 0, 8)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=936954464]
 
-[node name="StatusBar" type="HBoxContainer" parent="CanvasLayer"]
-layout_mode = 0
+[node name="StatusBar" type="HBoxContainer" parent="CanvasLayer" unique_id=282732104]
 offset_left = 18.0
 offset_top = 16.0
 offset_right = 420.0
 offset_bottom = 100.0
 theme_override_constants/separation = 12
 
-[node name="ScoreCard" type="Panel" parent="CanvasLayer/StatusBar"]
-layout_mode = 2
+[node name="ScoreCard" type="Panel" parent="CanvasLayer/StatusBar" unique_id=16782387]
 custom_minimum_size = Vector2(120, 76)
+layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/ScoreCard"]
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/ScoreCard" unique_id=1596638957]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -457,23 +441,23 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="CanvasLayer/StatusBar/ScoreCard/VBox"]
+[node name="Title" type="Label" parent="CanvasLayer/StatusBar/ScoreCard/VBox" unique_id=729519888]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "SKOR"
 horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="CanvasLayer/StatusBar/ScoreCard/VBox"]
+[node name="Value" type="Label" parent="CanvasLayer/StatusBar/ScoreCard/VBox" unique_id=497203681]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "0"
 horizontal_alignment = 1
 
-[node name="HealthCard" type="Panel" parent="CanvasLayer/StatusBar"]
-layout_mode = 2
+[node name="HealthCard" type="Panel" parent="CanvasLayer/StatusBar" unique_id=833510957]
 custom_minimum_size = Vector2(120, 76)
+layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/HealthCard"]
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/HealthCard" unique_id=638309707]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -488,23 +472,23 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="CanvasLayer/StatusBar/HealthCard/VBox"]
+[node name="Title" type="Label" parent="CanvasLayer/StatusBar/HealthCard/VBox" unique_id=1715211885]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "NYAWA"
 horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="CanvasLayer/StatusBar/HealthCard/VBox"]
+[node name="Value" type="Label" parent="CanvasLayer/StatusBar/HealthCard/VBox" unique_id=1315801317]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "❤️❤️❤️"
 horizontal_alignment = 1
 
-[node name="LevelCard" type="Panel" parent="CanvasLayer/StatusBar"]
-layout_mode = 2
+[node name="LevelCard" type="Panel" parent="CanvasLayer/StatusBar" unique_id=2023210812]
 custom_minimum_size = Vector2(120, 76)
+layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/LevelCard"]
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/StatusBar/LevelCard" unique_id=2140927296]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -519,13 +503,13 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="CanvasLayer/StatusBar/LevelCard/VBox"]
+[node name="Title" type="Label" parent="CanvasLayer/StatusBar/LevelCard/VBox" unique_id=205959096]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "LEVEL"
 horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="CanvasLayer/StatusBar/LevelCard/VBox"]
+[node name="Value" type="Label" parent="CanvasLayer/StatusBar/LevelCard/VBox" unique_id=2119110900]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "1"
@@ -548,8 +532,25 @@ offset_right = 930.0
 offset_bottom = 48.0
 text = "MENU"
 
-[node name="GameOverOverlay" type="Control" parent="CanvasLayer"]
+[node name="GameOverOverlay" type="Control" parent="CanvasLayer" unique_id=1825458076]
 visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="CanvasLayer/GameOverOverlay" unique_id=540332143]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.62)
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/GameOverOverlay" unique_id=1283690650]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -557,25 +558,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Dim" type="ColorRect" parent="CanvasLayer/GameOverOverlay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0, 0, 0, 0.62)
-
-[node name="Center" type="CenterContainer" parent="CanvasLayer/GameOverOverlay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="VBox" type="VBoxContainer" parent="CanvasLayer/GameOverOverlay/Center"]
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/GameOverOverlay/Center" unique_id=2003338027]
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="TitleDark" type="Label" parent="CanvasLayer/GameOverOverlay/Center/VBox"]
+[node name="TitleDark" type="Label" parent="CanvasLayer/GameOverOverlay/Center/VBox" unique_id=1904709696]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.08, 0.45, 0.2, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -584,27 +572,27 @@ theme_override_font_sizes/font_size = 64
 text = "GAME OVER"
 horizontal_alignment = 1
 
-[node name="TitleLight" type="Label" parent="CanvasLayer/GameOverOverlay/Center/VBox"]
+[node name="TitleLight" type="Label" parent="CanvasLayer/GameOverOverlay/Center/VBox" unique_id=273420988]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.53, 1, 0.65, 1)
 theme_override_font_sizes/font_size = 52
 text = "GAME OVER"
 horizontal_alignment = 1
 
-[node name="Buttons" type="HBoxContainer" parent="CanvasLayer/GameOverOverlay/Center/VBox"]
+[node name="Buttons" type="HBoxContainer" parent="CanvasLayer/GameOverOverlay/Center/VBox" unique_id=73169447]
 layout_mode = 2
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="RetryButton" type="Button" parent="CanvasLayer/GameOverOverlay/Center/VBox/Buttons"]
-layout_mode = 2
+[node name="RetryButton" type="Button" parent="CanvasLayer/GameOverOverlay/Center/VBox/Buttons" unique_id=1167197565]
 custom_minimum_size = Vector2(170, 44)
+layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "MAIN LAGI"
 
-[node name="MenuButton" type="Button" parent="CanvasLayer/GameOverOverlay/Center/VBox/Buttons"]
-layout_mode = 2
+[node name="MenuButton" type="Button" parent="CanvasLayer/GameOverOverlay/Center/VBox/Buttons" unique_id=1479023211]
 custom_minimum_size = Vector2(170, 44)
+layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "MAIN MENU"
 
