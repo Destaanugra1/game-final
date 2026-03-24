@@ -7,7 +7,7 @@ const GRAVITY := 920.0
 const ENEMY_SPEED_GROUND := 78.0
 const ENEMY_SPEED_BEE := 72.0
 const MAP_LEFT := 12.0
-const MAP_RIGHT := 1908.0
+const MAP_RIGHT := 3008.0
 
 const IDLE_TEXTURE := preload("res://Character/Idle/Idle-Sheet.png")
 const RUN_TEXTURE := preload("res://Character/Run/Run-Sheet.png")
@@ -90,6 +90,8 @@ func _ready() -> void:
 	npc2_dialog.visible = false
 	npc_dialog_label.text = "NPC 1: Tekan E untuk soal pertama!"
 	npc2_dialog_label.text = "NPC 2: Tekan E untuk soal berikutnya!"
+	_ensure_level2_floor()
+	_apply_level2_layout()
 
 	for coin in $Coins.get_children():
 		coin.body_entered.connect(_on_coin_entered.bind(coin))
@@ -122,6 +124,19 @@ func _setup_level() -> void:
 		coin.visible = true
 		coin.set_deferred("monitoring", true)
 		coin.set_deferred("monitorable", true)
+
+func _ensure_level2_floor() -> void:
+	if has_node("Environment/Level2Floor"):
+		return
+	var floor := StaticBody2D.new()
+	floor.name = "Level2Floor"
+	floor.position = Vector2(1700, 560)
+	var col := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(3350, 42)
+	col.shape = rect
+	floor.add_child(col)
+	$Environment.add_child(floor)
 
 func _apply_level2_layout() -> void:
 	if has_node("Player/Camera2D"):
