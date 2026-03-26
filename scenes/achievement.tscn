@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://ci5u481i0lxtr"]
 
 [ext_resource type="Script" path="res://scripts/achievement.gd" id="1"]
 
@@ -7,66 +7,381 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1")
 
 [node name="Background" type="ColorRect" parent="."]
+mouse_filter = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(1, 0.97, 0.84, 1)
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.09, 0.16, 1)
 
-[node name="Title" type="Label" parent="."]
-offset_left = 260.0
-offset_top = 36.0
-offset_right = 700.0
-offset_bottom = 92.0
+[node name="Border" type="ReferenceRect" parent="Background"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(0, 0.6, 1, 1)
+border_width = 3.0
+editor_only = false
+
+[node name="HeaderGroup" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 30.0
+offset_right = 200.0
+offset_bottom = 80.0
+grow_horizontal = 2
+
+[node name="Icon" type="Label" parent="HeaderGroup"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -20.0
+offset_right = 90.0
+offset_bottom = 20.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.6, 0, 1)
+theme_override_font_sizes/font_size = 28
+text = "🏆"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 36
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="HeaderGroup"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_font_sizes/font_size = 32
 text = "PENCAPAIAN"
+vertical_alignment = 1
 
-[node name="Item1" type="Panel" parent="."]
-offset_left = 155.0
-offset_top = 145.0
-offset_right = 805.0
-offset_bottom = 215.0
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -170.0
+offset_right = 400.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
 
-[node name="Label1" type="Label" parent="Item1"]
-offset_left = 24.0
-offset_top = 22.0
-offset_right = 420.0
-offset_bottom = 50.0
-text = "Quiz pertama selesai"
+[node name="Item1" type="Control" parent="VBox"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
 
-[node name="Item2" type="Panel" parent="."]
-offset_left = 155.0
-offset_top = 235.0
-offset_right = 805.0
-offset_bottom = 305.0
+[node name="Bg" type="ColorRect" parent="VBox/Item1"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12, 0.2, 0.3, 1)
 
-[node name="Label2" type="Label" parent="Item2"]
-offset_left = 24.0
-offset_top = 22.0
-offset_right = 420.0
-offset_bottom = 50.0
-text = "Kumpulkan semua coin"
+[node name="Border" type="ReferenceRect" parent="VBox/Item1/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(1, 0.8, 0, 0.8)
+border_width = 2.0
+editor_only = false
 
-[node name="Item3" type="Panel" parent="."]
-offset_left = 155.0
-offset_top = 325.0
-offset_right = 805.0
-offset_bottom = 395.0
+[node name="Icon" type="Label" parent="VBox/Item1/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -28.0
+offset_right = 76.0
+offset_bottom = 28.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "⚔️"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="Item3"]
-offset_left = 24.0
-offset_top = 22.0
-offset_right = 420.0
-offset_bottom = 50.0
-text = "Karakter baru terbuka"
+[node name="Title" type="Label" parent="VBox/Item1/Bg"]
+mouse_filter = 2
+layout_mode = 1
+offset_left = 100.0
+offset_top = 20.0
+offset_right = 500.0
+offset_bottom = 44.0
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_font_sizes/font_size = 18
+text = "PEMBURU PEMULA"
+
+[node name="Desc" type="Label" parent="VBox/Item1/Bg"]
+mouse_filter = 2
+layout_mode = 1
+offset_left = 100.0
+offset_top = 50.0
+offset_right = 500.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 12
+text = "Selesaikan kuis pertama"
+
+[node name="StatusBtn" type="Button" parent="VBox/Item1/Bg"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -20.0
+offset_right = -30.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "✓ DAPAT"
+
+[node name="Item2" type="Control" parent="VBox"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+
+[node name="Bg" type="ColorRect" parent="VBox/Item2"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12, 0.2, 0.3, 1)
+
+[node name="Border" type="ReferenceRect" parent="VBox/Item2/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(1, 0.8, 0, 0.8)
+border_width = 2.0
+editor_only = false
+
+[node name="Icon" type="Label" parent="VBox/Item2/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -28.0
+offset_right = 76.0
+offset_bottom = 28.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "💰"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="VBox/Item2/Bg"]
+mouse_filter = 2
+layout_mode = 1
+offset_left = 100.0
+offset_top = 20.0
+offset_right = 500.0
+offset_bottom = 44.0
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_font_sizes/font_size = 18
+text = "KOLEKTOR KOIN"
+
+[node name="Desc" type="Label" parent="VBox/Item2/Bg"]
+mouse_filter = 2
+layout_mode = 1
+offset_left = 100.0
+offset_top = 50.0
+offset_right = 500.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 12
+text = "Kumpulkan semua koin"
+
+[node name="StatusBtn" type="Button" parent="VBox/Item2/Bg"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -20.0
+offset_right = -30.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "✓ DAPAT"
+
+[node name="Item3" type="Control" parent="VBox"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+
+[node name="Bg" type="ColorRect" parent="VBox/Item3"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12, 0.2, 0.3, 1)
+
+[node name="Border" type="ReferenceRect" parent="VBox/Item3/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(1, 0.8, 0, 0.8)
+border_width = 2.0
+editor_only = false
+
+[node name="Icon" type="Label" parent="VBox/Item3/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -28.0
+offset_right = 76.0
+offset_bottom = 28.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "👤"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="VBox/Item3/Bg"]
+mouse_filter = 2
+layout_mode = 1
+offset_left = 100.0
+offset_top = 20.0
+offset_right = 500.0
+offset_bottom = 44.0
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_font_sizes/font_size = 18
+text = "KARAKTER BARU"
+
+[node name="Desc" type="Label" parent="VBox/Item3/Bg"]
+mouse_filter = 2
+layout_mode = 1
+offset_left = 100.0
+offset_top = 50.0
+offset_right = 500.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 12
+text = "Membuka karakter baru dari kuis"
+
+[node name="StatusBtn" type="Button" parent="VBox/Item3/Bg"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -20.0
+offset_right = -30.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "✓ DAPAT"
 
 [node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
 offset_left = 30.0
-offset_top = 24.0
-offset_right = 126.0
-offset_bottom = 66.0
-text = "KEMBALI"
+offset_top = -60.0
+offset_right = 210.0
+offset_bottom = -20.0
+grow_vertical = 0
+focus_mode = 0
+flat = true
+
+[node name="Bg" type="ColorRect" parent="BackButton"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.13, 0.22, 1)
+
+[node name="Border" type="ReferenceRect" parent="BackButton/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(0, 0.6, 1, 1)
+border_width = 3.0
+editor_only = false
+
+[node name="Label" type="Label" parent="BackButton/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "<- KEMBALI"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://b8xq4a07d3839"]
 
 [ext_resource type="Script" path="res://scripts/level_select.gd" id="1"]
 
@@ -7,48 +7,375 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1")
 
 [node name="Background" type="ColorRect" parent="."]
+mouse_filter = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.79, 0.92, 0.98, 1)
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.09, 0.16, 1)
 
-[node name="Title" type="Label" parent="."]
-offset_left = 260.0
+[node name="Stars" type="CPUParticles2D" parent="Background"]
+position = Vector2(480, 270)
+amount = 40
+lifetime = 12.0
+preprocess = 12.0
+emission_shape = 3
+emission_rect_extents = Vector2(480, 270)
+gravity = Vector2(0, 0)
+scale_amount_min = 1.0
+scale_amount_max = 3.0
+color = Color(0.8, 0.9, 1, 0.6)
+
+[node name="HeaderGroup" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
 offset_top = 40.0
-offset_right = 700.0
+offset_right = 200.0
 offset_bottom = 96.0
+grow_horizontal = 2
+
+[node name="Title" type="Label" parent="HeaderGroup"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+text = "- PILIH LEVEL -"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 36
-text = "PILIH LEVEL"
+vertical_alignment = 1
 
-[node name="Level1" type="Button" parent="."]
-offset_left = 130.0
-offset_top = 180.0
-offset_right = 300.0
-offset_bottom = 340.0
-text = "LEVEL 1"
+[node name="Underline" type="ColorRect" parent="HeaderGroup"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -6.0
+offset_right = 80.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(1, 0.2, 0.2, 1)
 
-[node name="Level2" type="Button" parent="."]
-offset_left = 395.0
-offset_top = 180.0
-offset_right = 565.0
-offset_bottom = 340.0
-text = "LEVEL 2\nLOCKED"
+[node name="Cards" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -330.0
+offset_top = -100.0
+offset_right = 330.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
 
-[node name="Level3" type="Button" parent="."]
-offset_left = 660.0
-offset_top = 180.0
-offset_right = 830.0
-offset_bottom = 340.0
-text = "LEVEL 3\nLOCKED"
+[node name="Level1" type="Button" parent="Cards"]
+custom_minimum_size = Vector2(150, 240)
+layout_mode = 2
+focus_mode = 0
+flat = true
+
+[node name="Bg" type="ColorRect" parent="Cards/Level1"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.13, 0.22, 1)
+
+[node name="Border" type="ReferenceRect" parent="Cards/Level1/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(0, 0.9, 0.8, 1)
+border_width = 3.0
+editor_only = false
+
+[node name="Icon" type="Label" parent="Cards/Level1/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0.9, 0.8, 1)
+theme_override_font_sizes/font_size = 32
+text = "▒"
+horizontal_alignment = 1
+
+[node name="LvText" type="Label" parent="Cards/Level1/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -10.0
+offset_right = 50.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "LV 1"
+horizontal_alignment = 1
+
+[node name="SubText" type="Label" parent="Cards/Level1/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = 30.0
+offset_right = 60.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 10
+text = "Hutan Angka"
+horizontal_alignment = 1
+
+[node name="Badge" type="ColorRect" parent="Cards/Level1/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -40.0
+offset_right = 30.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0.9, 0.8, 1)
+
+[node name="BadgeText" type="Label" parent="Cards/Level1/Bg/Badge"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.04, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 10
+text = "MATH"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Level2" type="Button" parent="Cards"]
+custom_minimum_size = Vector2(150, 240)
+layout_mode = 2
+focus_mode = 0
+flat = true
+
+[node name="Bg" type="ColorRect" parent="Cards/Level2"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.13, 0.22, 1)
+
+[node name="Border" type="ReferenceRect" parent="Cards/Level2/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(0, 0.9, 0.8, 0.3)
+border_width = 3.0
+editor_only = false
+
+[node name="Icon" type="Label" parent="Cards/Level2/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.5, 1)
+theme_override_font_sizes/font_size = 32
+text = "🔒"
+horizontal_alignment = 1
+
+[node name="LvText" type="Label" parent="Cards/Level2/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -10.0
+offset_right = 50.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.6, 1)
+theme_override_font_sizes/font_size = 18
+text = "LV 2"
+horizontal_alignment = 1
+
+[node name="Level3" type="Button" parent="Cards"]
+custom_minimum_size = Vector2(150, 240)
+layout_mode = 2
+focus_mode = 0
+flat = true
+
+[node name="Bg" type="ColorRect" parent="Cards/Level3"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.13, 0.22, 1)
+
+[node name="Border" type="ReferenceRect" parent="Cards/Level3/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(0, 0.9, 0.8, 0.3)
+border_width = 3.0
+editor_only = false
+
+[node name="Icon" type="Label" parent="Cards/Level3/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.5, 1)
+theme_override_font_sizes/font_size = 32
+text = "🔒"
+horizontal_alignment = 1
+
+[node name="LvText" type="Label" parent="Cards/Level3/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -10.0
+offset_right = 50.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.6, 1)
+theme_override_font_sizes/font_size = 18
+text = "LV 3"
+horizontal_alignment = 1
 
 [node name="BackButton" type="Button" parent="."]
-offset_left = 30.0
-offset_top = 24.0
-offset_right = 126.0
-offset_bottom = 66.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -70.0
+offset_right = 80.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+flat = true
+
+[node name="Bg" type="ColorRect" parent="BackButton"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.13, 0.22, 1)
+
+[node name="Border" type="ReferenceRect" parent="BackButton/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(0, 0.9, 0.8, 1)
+border_width = 2.0
+editor_only = false
+
+[node name="Label" type="Label" parent="BackButton/Bg"]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
 text = "KEMBALI"
+horizontal_alignment = 1
+vertical_alignment = 1

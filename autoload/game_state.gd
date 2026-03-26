@@ -14,6 +14,7 @@ var return_scene       := "res://scenes/gameplay.tscn"
 var return_position    := Vector2(120, 420)
 var killed_enemies     : Array[String] = []
 var active_question_key := "math_l1"
+var player_name        := "Player"
 
 const CHARACTER_DATA := [
 	{"name": "AKSA",  "stat": "Logika +2",   "hint": "Karakter awal"},
@@ -77,6 +78,18 @@ var question_banks := {
 		"answers": ["5 m/s²", "15 m/s²", "10 m/s²", "20 m/s²"],
 		"correct": 2,
 		"explanation": "Percepatan gravitasi g ≈ 9.8 m/s² (dibulatkan 10 m/s²).\nArtinya setiap detik, kecepatan benda jatuh bertambah 10 m/s. Rumus: F = m × g 🌍"
+	},
+	"sains_smp_4": {
+		"question": "Logam yang berwujud cair pada suhu ruang adalah…",
+		"answers": ["Emas", "Perak", "Raksa", "Tembaga"],
+		"correct": 2,
+		"explanation": "Raksa (Merkuri/Hg) adalah satu-satunya logam yang berwujud cair pada suhu standar.\nSering digunakan pada termometer raksa klasik! 🌡️"
+	},
+	"sains_smp_5": {
+		"question": "Jika dua kutub magnet yang senama (Utara-Utara) didekatkan, yang terjadi adalah…",
+		"answers": ["Tarik-menarik", "Tolak-menolak", "Netral", "Meledak"],
+		"correct": 1,
+		"explanation": "Kutub yang senama (U-U atau S-S) pada magnet selalu tolak-menolak.\nHanya kutub yang berbeda (U-S) yang saling tarik menarik! 🧲"
 	},
 }
 

@@ -39,13 +39,13 @@ text = "SCORE: 0"
 [node name="SubjectBadge" type="Panel" parent="Frame/TopBar"]
 layout_mode = 2
 size_flags_horizontal = 0
-custom_minimum_size = Vector2(130, 40)
+custom_minimum_size = Vector2(180, 40)
 
 [node name="SubjectLabel" type="Label" parent="Frame/TopBar/SubjectBadge"]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 126.0
+offset_right = 176.0
 offset_bottom = 36.0
 theme_override_colors/font_color = Color(0.1, 0.9, 0.8, 1)
 theme_override_font_sizes/font_size = 19
@@ -131,7 +131,7 @@ offset_left = 20.0
 offset_top = 8.0
 offset_right = 700.0
 offset_bottom = 72.0
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 20
 text = "What is 7 x 8?"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -140,41 +140,49 @@ autowrap_mode = 3
 [node name="Answers" type="GridContainer" parent="Frame/ContentRow/QuizColumn"]
 layout_mode = 2
 size_flags_vertical = 3
-columns = 2
+columns = 1
 theme_override_constants/h_separation = 12
-theme_override_constants/v_separation = 10
+theme_override_constants/v_separation = 6
 
 [node name="A" type="Button" parent="Frame/ContentRow/QuizColumn/Answers"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 54)
-theme_override_font_sizes/font_size = 21
+custom_minimum_size = Vector2(0, 50)
+theme_override_font_sizes/font_size = 14
 text = "A  54"
+alignment = 0
+autowrap_mode = 3
 
 [node name="B" type="Button" parent="Frame/ContentRow/QuizColumn/Answers"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 54)
-theme_override_font_sizes/font_size = 21
+custom_minimum_size = Vector2(0, 50)
+theme_override_font_sizes/font_size = 14
 text = "B  56"
+alignment = 0
+autowrap_mode = 3
 
 [node name="C" type="Button" parent="Frame/ContentRow/QuizColumn/Answers"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 54)
-theme_override_font_sizes/font_size = 21
+custom_minimum_size = Vector2(0, 50)
+theme_override_font_sizes/font_size = 14
 text = "C  64"
+alignment = 0
+autowrap_mode = 3
 
 [node name="D" type="Button" parent="Frame/ContentRow/QuizColumn/Answers"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 54)
-theme_override_font_sizes/font_size = 21
+custom_minimum_size = Vector2(0, 50)
+theme_override_font_sizes/font_size = 14
 text = "D  49"
+alignment = 0
+autowrap_mode = 3
 
 [node name="AttemptLabel" type="Label" parent="Frame"]
 layout_mode = 2
