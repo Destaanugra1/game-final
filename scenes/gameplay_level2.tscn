@@ -6,7 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://bkgi0ycugvqjw" path="res://Mob/Snail/walk-Sheet.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://dgauxp7yl5aww" path="res://Mob/Small Bee/Fly/Fly-Sheet.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://bc31ww7h3ivfh" path="res://assets/Tiles.png" id="8"]
+[ext_resource type="AudioStream" uid="uid://c70pp7h4qavje" path="res://assets/sounds/jump.wav" id="8_n7jsf"]
 [ext_resource type="Texture2D" uid="uid://bynp80cnfa84y" path="res://assets/Tree-Assets.png" id="9"]
+[ext_resource type="AudioStream" uid="uid://vq65kkxc7qwe" path="res://assets/sounds/power_up.wav" id="9_v40y4"]
+[ext_resource type="AudioStream" uid="uid://bmpbjdowhk2da" path="res://assets/music/Chiptune Fantasy.mp3" id="10_hj2nx"]
+[ext_resource type="AudioStream" uid="uid://biyxbd58442d" path="res://assets/sounds/mixkit-game-level-completed-2059.wav" id="10_mdayh"]
+[ext_resource type="AudioStream" uid="uid://bdkrrium6xy7s" path="res://assets/sounds/mixkit-player-losing-or-failing-2042.wav" id="11_hj2nx"]
+[ext_resource type="AudioStream" uid="uid://c4suviqctqm4" path="res://assets/sounds/mixkit-video-game-treasure-2066.wav" id="12_fets0"]
 
 [sub_resource type="RectangleShape2D" id="RectRiver"]
 size = Vector2(2500, 80)
@@ -44,14 +50,14 @@ atlas = ExtResource("9")
 region = Rect2(224, 80, 112, 80)
 
 [sub_resource type="RectangleShape2D" id="RectGround400"]
-size = Vector2(460.875, 176)
+size = Vector2(471, 176)
 
 [sub_resource type="AtlasTexture" id="AtlasGroundTile"]
 atlas = ExtResource("8")
 region = Rect2(0, 0, 80, 80)
 
 [sub_resource type="RectangleShape2D" id="RectGround320"]
-size = Vector2(490, 240)
+size = Vector2(490, 231)
 
 [sub_resource type="RectangleShape2D" id="RectPlatform"]
 size = Vector2(158, 70)
@@ -149,9 +155,9 @@ region_rect = Rect2(144.65564, -1.0938606, 106.34445, 164.53389)
 [node name="NightOverlay" type="ColorRect" parent="." unique_id=818531519]
 z_index = 8
 offset_left = 1.0
-offset_top = -287.0
+offset_top = -271.0
 offset_right = 3350.0
-offset_bottom = 611.0
+offset_bottom = 627.0
 color = Color(0.02, 0.05, 0.15, 0.42)
 
 [node name="Environment" type="Node2D" parent="." unique_id=1270148017]
@@ -176,7 +182,7 @@ stretch_mode = 1
 position = Vector2(760, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground2" unique_id=1826040495]
-position = Vector2(-37.875, 24)
+position = Vector2(-52, 24)
 shape = SubResource("RectGround400")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground2" unique_id=252040157]
@@ -191,7 +197,7 @@ stretch_mode = 1
 position = Vector2(1320, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground3" unique_id=2040691035]
-position = Vector2(87, -9)
+position = Vector2(80.5, -9)
 shape = SubResource("RectGround400")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground3" unique_id=442258486]
@@ -206,7 +212,7 @@ stretch_mode = 1
 position = Vector2(1840, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground4" unique_id=1414064257]
-position = Vector2(85, 0)
+position = Vector2(85, 4.5)
 shape = SubResource("RectGround320")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground4" unique_id=487832965]
@@ -314,8 +320,8 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = 424.0
 offset_bottom = 104.0
-text = "NPC 1: Tekan E untuk soal pertama!"
 theme_override_font_sizes/font_size = 14
+text = "NPC 1: Tekan E untuk soal pertama!"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -357,8 +363,8 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = 424.0
 offset_bottom = 104.0
-text = "NPC 2: Tekan E untuk soal berikutnya!"
 theme_override_font_sizes/font_size = 14
+text = "NPC 2: Tekan E untuk soal berikutnya!"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -705,3 +711,21 @@ one_shot = true
 [node name="AttackTimer" type="Timer" parent="." unique_id=848794207]
 wait_time = 0.28
 one_shot = true
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="." unique_id=1020523888]
+stream = ExtResource("8_n7jsf")
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="." unique_id=183186381]
+stream = ExtResource("9_v40y4")
+
+[node name="Music1" type="AudioStreamPlayer2D" parent="." unique_id=658316743]
+stream = ExtResource("10_hj2nx")
+
+[node name="FinishSound" type="AudioStreamPlayer2D" parent="." unique_id=1849562215]
+stream = ExtResource("10_mdayh")
+
+[node name="GameOverSound" type="AudioStreamPlayer2D" parent="." unique_id=675800127]
+stream = ExtResource("11_hj2nx")
+
+[node name="CorrectSound" type="AudioStreamPlayer2D" parent="." unique_id=573347865]
+stream = ExtResource("12_fets0")

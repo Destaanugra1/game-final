@@ -1,5 +1,8 @@
 extends Node
 
+const MENU_MUSIC_STREAM := preload("res://assets/music/AdhesiveWombat - Night Shade  NO COPYRIGHT 8-bit Music.mp3")
+const GAMEPLAY_MUSIC_STREAM := preload("res://assets/music/time_for_adventure.mp3")
+
 var score              := 0
 var selected_character := 0
 var unlocked_characters: Array[bool] = [true, false, false]
@@ -13,8 +16,12 @@ var player_health      := 3
 var return_scene       := "res://scenes/gameplay.tscn"
 var return_position    := Vector2(120, 420)
 var killed_enemies     : Array[String] = []
+var completed_quiz_keys: Array[String] = []
 var active_question_key := "math_l1"
 var player_name        := "Player"
+var pending_correct_sfx := false
+var menu_music_player  : AudioStreamPlayer
+var gameplay_music_player: AudioStreamPlayer
 
 const CHARACTER_DATA := [
 	{"name": "AKSA",  "stat": "Logika +2",   "hint": "Karakter awal"},
@@ -93,13 +100,65 @@ var question_banks := {
 	},
 }
 
+func _ready() -> void:
+	_ensure_menu_music_player()
+	_ensure_gameplay_music_player()
+
+func _ensure_menu_music_player() -> void:
+	if is_instance_valid(menu_music_player):
+		return
+	menu_music_player = AudioStreamPlayer.new()
+	menu_music_player.name = "MenuMusicPlayer"
+	menu_music_player.stream = MENU_MUSIC_STREAM
+	add_child(menu_music_player)
+
+func _ensure_gameplay_music_player() -> void:
+	if is_instance_valid(gameplay_music_player):
+		return
+	gameplay_music_player = AudioStreamPlayer.new()
+	gameplay_music_player.name = "Music1"
+	gameplay_music_player.stream = GAMEPLAY_MUSIC_STREAM
+	if gameplay_music_player.stream is AudioStreamMP3:
+		(gameplay_music_player.stream as AudioStreamMP3).loop = true
+	add_child(gameplay_music_player)
+
+func play_menu_music() -> void:
+	_ensure_menu_music_player()
+	stop_gameplay_music()
+	if menu_music_player.stream != MENU_MUSIC_STREAM:
+		menu_music_player.stream = MENU_MUSIC_STREAM
+	if not menu_music_player.playing:
+		menu_music_player.play()
+
+func stop_menu_music() -> void:
+	if is_instance_valid(menu_music_player) and menu_music_player.playing:
+		menu_music_player.stop()
+
+func play_gameplay_music() -> void:
+	_ensure_gameplay_music_player()
+	stop_menu_music()
+	if gameplay_music_player.stream != GAMEPLAY_MUSIC_STREAM:
+		gameplay_music_player.stream = GAMEPLAY_MUSIC_STREAM
+	if gameplay_music_player.stream is AudioStreamMP3:
+		(gameplay_music_player.stream as AudioStreamMP3).loop = true
+	if not gameplay_music_player.playing:
+		gameplay_music_player.play()
+
+func stop_gameplay_music() -> void:
+	if is_instance_valid(gameplay_music_player) and gameplay_music_player.playing:
+		gameplay_music_player.stop()
+
 func reset_progress() -> void:
 	score = 0;  quiz_completed = false;  collected_coins = 0
+	completed_quiz_keys.clear()
+	pending_correct_sfx = false
 	selected_level = 1;  player_health = max_health;  killed_enemies.clear()
 
 func start_level(level: int) -> void:
 	selected_level = clamp(level, 1, max_level)
 	quiz_completed = false;  collected_coins = 0
+	completed_quiz_keys.clear()
+	pending_correct_sfx = false
 	player_health  = max_health;  killed_enemies.clear()
 
 func add_score(amount: int) -> void:
@@ -117,6 +176,22 @@ func current_question() -> Dictionary:
 func set_question_key(key: String) -> void:
 	if key in question_banks:
 		active_question_key = key
+
+func required_quiz_count(level: int = selected_level) -> int:
+	match clamp(level, 1, max_level):
+		1:
+			return 1
+		2, 3:
+			return 2
+		_:
+			return 1
+
+func mark_question_completed(question_key: String) -> void:
+	if question_key.is_empty():
+		return
+	if question_key not in completed_quiz_keys:
+		completed_quiz_keys.append(question_key)
+	quiz_completed = completed_quiz_keys.size() >= required_quiz_count()
 
 func unlock_character_by_quiz(question_key: String) -> void:
 	if question_key in QUIZ_UNLOCK_MAP:
@@ -136,5 +211,6 @@ func advance_level() -> bool:
 	if selected_level < max_level:
 		selected_level += 1
 		quiz_completed = false;  collected_coins = 0;  player_health = max_health
+		completed_quiz_keys.clear()
 		return true
 	return false

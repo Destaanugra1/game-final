@@ -1,6 +1,7 @@
 extends Control
 
 func _ready() -> void:
+	GameState.play_menu_music()
 	$BackButton.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/main_menu.tscn"))
 	
 	_set_achievement($VBox/Item1, GameState.achievements["first_quiz"])

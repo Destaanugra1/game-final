@@ -1,6 +1,6 @@
-res://scripts/splash_screen.gd
-res://scenes/name_input.tscn
-res://scenes/gameplay_level2.tscn
+res://autoload/game_state.gd
+res://scripts/gameplay.gd
+res://scripts/gameplay_level2.gd
+res://scripts/gameplay_level3.gd
 res://scripts/result_screen.gd
-res://scripts/achievement.gd
-res://scripts/level_select.gd
+res://scenes/gameplay_level3.tscn

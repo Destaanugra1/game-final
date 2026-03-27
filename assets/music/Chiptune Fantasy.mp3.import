@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bmpbjdowhk2da"
+path="res://.godot/imported/Chiptune Fantasy.mp3-89fb06730749c182242144f9848a4f0d.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Chiptune Fantasy.mp3"
+dest_files=["res://.godot/imported/Chiptune Fantasy.mp3-89fb06730749c182242144f9848a4f0d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

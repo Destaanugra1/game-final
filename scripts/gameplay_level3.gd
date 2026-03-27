@@ -13,6 +13,7 @@ const IDLE_TEXTURE    := preload("res://Character/Idle/Idle-Sheet.png")
 const RUN_TEXTURE     := preload("res://Character/Run/Run-Sheet.png")
 const JUMP_TEXTURE    := preload("res://Character/Jumlp-All/Jump-All-Sheet.png")
 const ATTACK_TEXTURE  := preload("res://Character/Attack-01/Attack-01-Sheet.png")
+const ATTACK_SOUND_STREAM := preload("res://assets/sounds/07_human_atk_sword_1.wav")
 const DROP_BASE_TEXTURE := preload("res://assets/Tiles.png")
 
 const PLAYER_IDLE_POS      := Vector2(0, -24)
@@ -52,6 +53,11 @@ const MAX_HEALTH           := 3
 @onready var game_over_overlay     : Control = $CanvasLayer/GameOverOverlay
 @onready var game_over_retry_button: Button  = $CanvasLayer/GameOverOverlay/Center/VBox/Buttons/RetryButton
 @onready var game_over_menu_button : Button  = $CanvasLayer/GameOverOverlay/Center/VBox/Buttons/MenuButton
+@onready var jump_sound     : AudioStreamPlayer2D = get_node_or_null("JumpSound")
+@onready var hit_sound      : AudioStreamPlayer2D = get_node_or_null("HitSound")
+@onready var attack_sound   : AudioStreamPlayer2D = get_node_or_null("AttackSound")
+@onready var correct_sound   = get_node_or_null("CorrectSound")
+@onready var game_over_sound = get_node_or_null("GameOverSound")
 
 # ─── State ───────────────────────────────────────────────────────────────────
 var player_anim_tick   := 0
@@ -62,6 +68,7 @@ var health             := MAX_HEALTH
 var enemy_data         : Array[Dictionary] = []
 var drop_texture       : AtlasTexture
 var is_game_over       := false
+var is_finishing       := false
 var can_talk_npc       := false
 var can_talk_npc2      := false
 
@@ -70,9 +77,11 @@ var star_nodes: Array[Polygon2D] = []
 
 # ─── Ready ───────────────────────────────────────────────────────────────────
 func _ready() -> void:
+	GameState.play_gameplay_music()
 	drop_texture        = AtlasTexture.new()
 	drop_texture.atlas  = DROP_BASE_TEXTURE
 	drop_texture.region = Rect2(176, 320, 16, 16)
+	_ensure_attack_sound()
 
 	_connect_signals()
 	_build_world()
@@ -91,13 +100,16 @@ func _ready() -> void:
 	if GameState.return_scene == "res://scenes/gameplay_level3.tscn":
 		player.global_position = GameState.return_position
 	_refresh()
+	_play_pending_correct_sound()
 	if health <= 0:
 		_show_game_over()
 
 # ─── Signals ─────────────────────────────────────────────────────────────────
 func _connect_signals() -> void:
 	$CanvasLayer/MenuButton.pressed.connect(
-		func(): get_tree().change_scene_to_file("res://scenes/main_menu.tscn"))
+		func():
+			GameState.stop_gameplay_music()
+			get_tree().change_scene_to_file("res://scenes/main_menu.tscn"))
 	npc.body_entered.connect(_on_npc_entered)
 	npc.body_exited.connect(_on_npc_exited)
 	npc2.body_entered.connect(_on_npc2_entered)
@@ -454,6 +466,7 @@ func _physics_process(delta: float) -> void:
 			or Input.is_action_just_pressed("ui_up")
 			or Input.is_key_pressed(KEY_W)) and player.is_on_floor():
 		player.velocity.y = JUMP
+		_play_jump_sound()
 
 	# Serangan
 	if Input.is_key_pressed(KEY_J) and not is_attacking:
@@ -467,7 +480,7 @@ func _physics_process(delta: float) -> void:
 	player.move_and_slide()
 	player.global_position.x = clamp(player.global_position.x, MAP_LEFT, MAP_RIGHT)
 
-	# Interaksi NPC — NPC1=Sains SMP 4, NPC2=Sains SMP 5
+	# Interaksi NPC — masing-masing NPC bisa membuka quiz-nya saat ditekan E
 	if can_talk_npc and Input.is_key_pressed(KEY_E):
 		_start_quiz("sains_smp_4")
 		return
@@ -477,6 +490,7 @@ func _physics_process(delta: float) -> void:
 
 	# Jatuh ke jurang
 	if player.global_position.y > 620:
+		_play_hit_sound()
 		_damage_player()
 
 	_update_enemies(delta)
@@ -535,6 +549,60 @@ func _update_drops(delta: float) -> void:
 		if is_instance_valid(drop):
 			drop.position.y += 12.0 * delta
 
+func _play_jump_sound() -> void:
+	if not jump_sound:
+		return
+	# Keep source near player so 2D attenuation does not reduce volume while traversing the map.
+	jump_sound.global_position = player.global_position
+	if jump_sound.playing:
+		jump_sound.stop()
+	jump_sound.play()
+
+func _ensure_attack_sound() -> void:
+	if not attack_sound:
+		attack_sound = AudioStreamPlayer2D.new()
+		attack_sound.name = "AttackSound"
+		add_child(attack_sound)
+	if attack_sound.stream == null:
+		attack_sound.stream = ATTACK_SOUND_STREAM
+
+func _play_attack_sound() -> void:
+	if not attack_sound:
+		return
+	attack_sound.global_position = player.global_position
+	if attack_sound.playing:
+		attack_sound.stop()
+	attack_sound.play()
+
+func _play_hit_sound() -> void:
+	if not hit_sound:
+		return
+	hit_sound.global_position = player.global_position
+	if hit_sound.playing:
+		hit_sound.stop()
+	hit_sound.play()
+
+func _play_pending_correct_sound() -> void:
+	if not GameState.pending_correct_sfx:
+		return
+	GameState.pending_correct_sfx = false
+	if not correct_sound:
+		return
+	if correct_sound is AudioStreamPlayer2D:
+		correct_sound.global_position = player.global_position
+	if correct_sound.has_method("stop"):
+		correct_sound.call("stop")
+	if correct_sound.has_method("play"):
+		correct_sound.call("play")
+
+func _play_game_over_sound() -> void:
+	if not game_over_sound:
+		return
+	if game_over_sound.has_method("stop"):
+		game_over_sound.call("stop")
+	if game_over_sound.has_method("play"):
+		game_over_sound.call("play")
+
 func _spawn_drop(pos: Vector2) -> void:
 	var drop   := Area2D.new()
 	drop.position = pos + Vector2(0, -18)
@@ -562,6 +630,7 @@ func _start_attack() -> void:
 	player_visual.frame      = 0
 	player_visual.position   = PLAYER_ATTACK_POS
 	player_visual.scale      = PLAYER_ATTACK_SCALE
+	_play_attack_sound()
 	_show_popup("Serang!")
 	attack_timer.start()
 
@@ -634,14 +703,17 @@ func _on_npc2_exited(body: Node2D) -> void:
 
 func _on_gate_entered(body: Node2D) -> void:
 	if body != player: return
+	if is_finishing: return
 	if not GameState.quiz_completed:
 		_show_popup("Selesaikan soal dulu!")
 		return
-	# Gunakan call_deferred agar aman di physics callback
-	get_tree().call_deferred("change_scene_to_file", "res://scenes/result_screen.tscn")
+	is_finishing = true
+	GameState.stop_gameplay_music()
+	get_tree().change_scene_to_file("res://scenes/result_screen.tscn")
 
 func _on_enemy_entered(body: Node2D, _enemy: Area2D) -> void:
 	if body != player: return
+	_play_hit_sound()
 	_damage_player()
 
 # ─── Player ───────────────────────────────────────────────────────────────────
@@ -665,6 +737,7 @@ func _reset_player() -> void:
 
 func _show_game_over() -> void:
 	is_game_over = true
+	_play_game_over_sound()
 	player.velocity = Vector2.ZERO
 	# set_deferred wajib untuk monitoring saat dalam signal fisika
 	attack_hitbox.set_deferred("monitoring",  false)
@@ -683,6 +756,7 @@ func _on_game_over_retry() -> void:
 	get_tree().reload_current_scene()
 
 func _on_game_over_menu() -> void:
+	GameState.stop_gameplay_music()
 	GameState.reset_progress()
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 

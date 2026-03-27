@@ -33,6 +33,7 @@ var anim_tick      := 0
 @onready var explanation_panel: Panel   = $Frame/ExplanationPanel
 @onready var explanation_text : Label   = $Frame/ExplanationPanel/VBox/CharRow/ExpText
 @onready var exp_char_sprite  : Sprite2D = $Frame/ExplanationPanel/VBox/CharRow/ExpChar
+@onready var correct_sound = get_node_or_null("CorrectSound")
 
 var anim_timer  : Timer
 var anim_timer2 : Timer
@@ -91,11 +92,13 @@ func _answer(index: int) -> void:
 		return
 	var q: Dictionary = GameState.current_question()
 	if index == q["correct"]:
+		var solved_key := GameState.active_question_key
+		GameState.pending_correct_sfx = not _play_correct_sound()
 		# BENAR
 		answered = true
 		timer.stop()
 		GameState.add_score(10)
-		GameState.quiz_completed             = true
+		GameState.mark_question_completed(solved_key)
 		GameState.achievements["first_quiz"] = true
 		GameState.unlock_character_by_quiz(GameState.active_question_key)
 		_highlight_correct(q)
@@ -131,6 +134,16 @@ func _answer(index: int) -> void:
 			attempt_label.text     = "❌ Salah! Percobaan ke-%d/%d" % [wrong_attempts, MAX_WRONG]
 			attempt_label.modulate = Color(1, 0.55, 0.22, 1)
 			# Jangan disable — biarkan coba lagi
+
+func _play_correct_sound() -> bool:
+	if not correct_sound:
+		return false
+	if correct_sound.has_method("stop"):
+		correct_sound.call("stop")
+	if correct_sound.has_method("play"):
+		correct_sound.call("play")
+		return true
+	return false
 
 func _show_explanation(q: Dictionary) -> void:
 	var explanation_str: String = q.get("explanation", "Pelajari kembali materi ini ya! 📚")

@@ -1,10 +1,12 @@
 extends Control
 
 func _ready() -> void:
+	GameState.play_menu_music()
 	$BackButton.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/main_menu.tscn"))
 	
 	$Cards/Level1.pressed.connect(func():
 		GameState.start_level(1)
+		GameState.stop_menu_music()
 		get_tree().change_scene_to_file("res://scenes/gameplay.tscn")
 	)
 	
@@ -12,6 +14,7 @@ func _ready() -> void:
 		_unlock_card($Cards/Level2, "LV 2", "Gua Sains", "SAINS")
 		$Cards/Level2.pressed.connect(func():
 			GameState.start_level(2)
+			GameState.stop_menu_music()
 			get_tree().change_scene_to_file("res://scenes/gameplay_level2.tscn")
 		)
 		
@@ -19,6 +22,7 @@ func _ready() -> void:
 		_unlock_card($Cards/Level3, "LV 3", "Labirin Logika", "LOGIKA")
 		$Cards/Level3.pressed.connect(func():
 			GameState.start_level(3)
+			GameState.stop_menu_music()
 			get_tree().change_scene_to_file("res://scenes/gameplay_level3.tscn")
 		)
 

@@ -15,6 +15,7 @@ var anim_ticks: Array[int] = []
 var anim_timers: Array[Timer] = []
 
 func _ready() -> void:
+	GameState.play_menu_music()
 	_polish_back_button()
 	_build_cards()
 	back_button.pressed.connect(
