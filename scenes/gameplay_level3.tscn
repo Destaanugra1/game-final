@@ -15,7 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://c4suviqctqm4" path="res://assets/sounds/mixkit-video-game-treasure-2066.wav" id="12_72rua"]
 
 [sub_resource type="RectangleShape2D" id="RectRiver"]
-size = Vector2(2500, 80)
+size = Vector2(4200, 80)
 
 [sub_resource type="Shader" id="ShaderWater"]
 code = "shader_type canvas_item;
@@ -50,14 +50,14 @@ atlas = ExtResource("9")
 region = Rect2(224, 80, 112, 80)
 
 [sub_resource type="RectangleShape2D" id="RectGround400"]
-size = Vector2(460.875, 176)
+size = Vector2(460.875, 137)
 
 [sub_resource type="AtlasTexture" id="AtlasGroundTile"]
 atlas = ExtResource("8")
 region = Rect2(0, 0, 80, 80)
 
 [sub_resource type="RectangleShape2D" id="RectGround320"]
-size = Vector2(320, 240)
+size = Vector2(320, 182)
 
 [sub_resource type="RectangleShape2D" id="RectPlatform"]
 size = Vector2(158, 70)
@@ -114,17 +114,17 @@ stretch_mode = 1
 
 [node name="ContinuousRiver" type="Area2D" parent="." unique_id=727260417 groups=["hazards"]]
 z_index = -1
-position = Vector2(1550, 560)
+position = Vector2(2000, 560)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ContinuousRiver" unique_id=1833917765]
-position = Vector2(53, 49)
+position = Vector2(0, 49)
 shape = SubResource("RectRiver")
 
 [node name="Water" type="ColorRect" parent="ContinuousRiver" unique_id=1950174574]
 material = SubResource("MaterialWater")
-offset_left = -1250.0
+offset_left = -2100.0
 offset_top = -20.0
-offset_right = 1250.0
+offset_right = 2100.0
 offset_bottom = 60.0
 
 [node name="DecorBack" type="Node2D" parent="." unique_id=1893054248]
@@ -171,59 +171,61 @@ position = Vector2(-4, 8)
 shape = SubResource("RectGround400")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground1" unique_id=1711587434]
-offset_left = -221.0
-offset_top = -120.0
-offset_right = 205.0
-offset_bottom = 76.0
+offset_left = -240.0
+offset_top = -88.0
+offset_right = 230.0
+offset_bottom = 100.0
 texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
 [node name="Ground2" type="StaticBody2D" parent="Environment" unique_id=1333598761]
-position = Vector2(760, 520)
+position = Vector2(800, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground2" unique_id=1826040495]
 position = Vector2(-37.875, 24)
 shape = SubResource("RectGround400")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground2" unique_id=252040157]
-offset_left = -193.0
-offset_top = -86.0
-offset_right = 176.0
-offset_bottom = 73.0
+offset_left = -270.0
+offset_top = -88.0
+offset_right = 195.0
+offset_bottom = 100.0
+size_flags_horizontal = 0
 texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
 [node name="Ground3" type="StaticBody2D" parent="Environment" unique_id=2099307223]
-position = Vector2(1320, 520)
+position = Vector2(1460, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground3" unique_id=2040691035]
-position = Vector2(87, -9)
+position = Vector2(87, 10.5)
 shape = SubResource("RectGround400")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground3" unique_id=442258486]
-offset_left = -163.0
-offset_top = -111.0
-offset_right = 326.0
-offset_bottom = -31.0
+offset_left = -150.0
+offset_top = -82.0
+offset_right = 320.0
+offset_bottom = 100.0
 texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
 [node name="Ground4" type="StaticBody2D" parent="Environment" unique_id=575677417]
-position = Vector2(1840, 520)
+position = Vector2(2100, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground4" unique_id=1414064257]
+position = Vector2(0, 29)
 shape = SubResource("RectGround320")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground4" unique_id=487832965]
-offset_left = -160.0
-offset_top = -120.0
-offset_right = 160.0
-offset_bottom = -40.0
+offset_left = -170.0
+offset_top = -88.0
+offset_right = 170.0
+offset_bottom = 100.0
 texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
 [node name="Platform1" type="StaticBody2D" parent="Environment" unique_id=1227320030]
-position = Vector2(480, 360)
+position = Vector2(500, 360)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform1" unique_id=2143368060]
 position = Vector2(9, 60)
@@ -238,7 +240,7 @@ texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
 [node name="Platform2" type="StaticBody2D" parent="Environment" unique_id=478084]
-position = Vector2(1040, 320)
+position = Vector2(1130, 360)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform2" unique_id=2041893284]
 position = Vector2(14, 115)
@@ -269,7 +271,7 @@ hframes = 4
 position = Vector2(0, -120)
 limit_left = 0
 limit_top = 0
-limit_right = 3040
+limit_right = 3840
 limit_bottom = 600
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
@@ -284,7 +286,7 @@ shape = SubResource("RectAttack")
 disabled = true
 
 [node name="NPC" type="Area2D" parent="." unique_id=2015113257]
-position = Vector2(1496, 381)
+position = Vector2(1700, 424)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NPC" unique_id=446814477]
 position = Vector2(2, -44)
@@ -326,7 +328,7 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="NPC2" type="Area2D" parent="." unique_id=355578011]
-position = Vector2(1746, 367)
+position = Vector2(2600, 424)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NPC2" unique_id=162807071]
 position = Vector2(1.5, -13.5)
@@ -371,7 +373,7 @@ autowrap_mode = 3
 [node name="Enemies" type="Node2D" parent="." unique_id=129552488]
 
 [node name="Snail1" type="Area2D" parent="Enemies" unique_id=1794894168 groups=["enemies"]]
-position = Vector2(620, 384)
+position = Vector2(800, 448)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Snail1" unique_id=53000764]
 position = Vector2(120, 3)
@@ -383,7 +385,7 @@ texture = ExtResource("6")
 hframes = 8
 
 [node name="Snail2" type="Area2D" parent="Enemies" unique_id=998635796 groups=["enemies"]]
-position = Vector2(1286, 353)
+position = Vector2(2100, 448)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Snail2" unique_id=538101880]
 position = Vector2(1, -27)
@@ -395,7 +397,7 @@ texture = ExtResource("6")
 hframes = 8
 
 [node name="Bee1" type="Area2D" parent="Enemies" unique_id=564008998 groups=["enemies"]]
-position = Vector2(930, 220)
+position = Vector2(800, 200)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Bee1" unique_id=1490406596]
 shape = SubResource("RectEnemyBee")
@@ -405,7 +407,7 @@ texture = ExtResource("7")
 hframes = 4
 
 [node name="Bee2" type="Area2D" parent="Enemies" unique_id=48350076 groups=["enemies"]]
-position = Vector2(1680, 190)
+position = Vector2(1450, 200)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Bee2" unique_id=1282204363]
 shape = SubResource("RectEnemyBee")
@@ -415,7 +417,7 @@ texture = ExtResource("7")
 hframes = 4
 
 [node name="Snail3" type="Area2D" parent="Enemies" unique_id=271670753 groups=["enemies"]]
-position = Vector2(2460, 384)
+position = Vector2(2750, 448)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Snail3" unique_id=32069544]
 position = Vector2(0, -1)
@@ -427,7 +429,7 @@ texture = ExtResource("6")
 hframes = 8
 
 [node name="Bee3" type="Area2D" parent="Enemies" unique_id=1431134286 groups=["enemies"]]
-position = Vector2(2620, 170)
+position = Vector2(2150, 200)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Bee3" unique_id=2077224003]
 shape = SubResource("RectEnemyBee")
@@ -437,9 +439,10 @@ texture = ExtResource("7")
 hframes = 4
 
 [node name="Coins" type="Node2D" parent="." unique_id=2088434822]
+z_index = 3
 
 [node name="Coin1" type="Area2D" parent="Coins" unique_id=299527681]
-position = Vector2(260, 380)
+position = Vector2(400, 390)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin1" unique_id=1631363916]
 shape = SubResource("RectCoin")
@@ -449,7 +452,7 @@ scale = Vector2(2, 2)
 texture = SubResource("AtlasCoin")
 
 [node name="Coin2" type="Area2D" parent="Coins" unique_id=1212097324]
-position = Vector2(480, 310)
+position = Vector2(600, 280)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin2" unique_id=736277769]
 shape = SubResource("RectCoin")
@@ -459,7 +462,7 @@ scale = Vector2(2, 2)
 texture = SubResource("AtlasCoin")
 
 [node name="Coin3" type="Area2D" parent="Coins" unique_id=929189304]
-position = Vector2(760, 380)
+position = Vector2(1200, 390)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin3" unique_id=1798707987]
 shape = SubResource("RectCoin")
@@ -469,7 +472,7 @@ scale = Vector2(2, 2)
 texture = SubResource("AtlasCoin")
 
 [node name="Coin4" type="Area2D" parent="Coins" unique_id=1813796582]
-position = Vector2(1040, 260)
+position = Vector2(1400, 280)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin4" unique_id=175183519]
 shape = SubResource("RectCoin")
@@ -479,7 +482,7 @@ scale = Vector2(2, 2)
 texture = SubResource("AtlasCoin")
 
 [node name="Coin5" type="Area2D" parent="Coins" unique_id=645914191]
-position = Vector2(2260, 370)
+position = Vector2(2000, 390)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin5" unique_id=1975754671]
 shape = SubResource("RectCoin")
@@ -489,7 +492,7 @@ scale = Vector2(2, 2)
 texture = SubResource("AtlasCoin")
 
 [node name="Coin6" type="Area2D" parent="Coins" unique_id=736625498]
-position = Vector2(2620, 280)
+position = Vector2(2200, 280)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin6" unique_id=242292999]
 shape = SubResource("RectCoin")
@@ -501,7 +504,7 @@ texture = SubResource("AtlasCoin")
 [node name="Drops" type="Node2D" parent="." unique_id=764341648]
 
 [node name="Gate" type="Area2D" parent="." unique_id=1356160222]
-position = Vector2(1879, 386)
+position = Vector2(3700, 410)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Gate" unique_id=57549545]
 position = Vector2(0, 1)

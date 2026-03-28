@@ -142,10 +142,10 @@ func _ensure_floor() -> void:
 		return
 	var body := StaticBody2D.new()
 	body.name = "Level2Floor"
-	body.position = Vector2(1700, 520)
+	body.position = Vector2(2000, 520)
 	var col  := CollisionShape2D.new()
 	var rect := RectangleShape2D.new()
-	rect.size = Vector2(3350, 76)
+	rect.size = Vector2(4200, 76)
 	col.shape = rect
 	body.add_child(col)
 	$Environment.add_child(body)
@@ -181,7 +181,22 @@ func _add_obstacle(obstacle_name: String, pos: Vector2, size: Vector2, rock_regi
 func _ensure_extended_area() -> void:
 	# Perluas background agar menutupi seluruh map
 	if has_node("BackgroundArt"):
-		$BackgroundArt.offset_right = 4000.0
+		$BackgroundArt.offset_right = 4200.0
+
+	# Perluas Sky agar menutupi seluruh map
+	if has_node("Sky"):
+		$Sky.offset_right = 4200.0
+
+	# Perluas NightOverlay agar menutupi seluruh map
+	if has_node("NightOverlay"):
+		$NightOverlay.offset_right = 4200.0
+
+	# Perluas water visual agar menutupi seluruh map
+	if has_node("ContinuousRiver/Water"):
+		$ContinuousRiver/Water.offset_left  = -2200.0
+		$ContinuousRiver/Water.offset_right  = 2200.0
+	if has_node("ContinuousRiver"):
+		$ContinuousRiver.position.x = 2000.0
 
 	# Helper untuk membuat visual ground
 	var make_g = func(g_name: String, g_width: float):
@@ -241,6 +256,7 @@ func _ensure_extended_area() -> void:
 	_add_decor_tree("Tree5", Vector2(2560, 355), Vector2(1.5, 1.5), Rect2(224, 0,  112, 80))
 	_add_decor_tree("Tree6", Vector2(2860, 370), Vector2(1.3, 1.4), Rect2(224, 80, 112, 80))
 	_add_decor_tree("Tree7", Vector2(3360, 360), Vector2(1.6, 1.6), Rect2(224, 0,  112, 80))
+	_add_decor_tree("Tree8", Vector2(3700, 365), Vector2(1.4, 1.5), Rect2(224, 80, 112, 80))
 
 	# Hapus floor invisible bawaan Level 2
 	if has_node("Environment/Level2Floor"):

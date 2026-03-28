@@ -277,7 +277,7 @@ shape = SubResource("RectAttack")
 disabled = true
 
 [node name="NPC" type="Area2D" parent="." unique_id=2015113257]
-position = Vector2(1506, 402)
+position = Vector2(1480, 424)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NPC" unique_id=446814477]
 position = Vector2(2, -21)
@@ -365,6 +365,7 @@ texture = ExtResource("7")
 hframes = 4
 
 [node name="Coins" type="Node2D" parent="." unique_id=2088434822]
+z_index = 3
 
 [node name="Coin1" type="Area2D" parent="Coins" unique_id=299527681]
 position = Vector2(260, 380)
@@ -409,7 +410,7 @@ texture = SubResource("AtlasCoin")
 [node name="Drops" type="Node2D" parent="." unique_id=764341648]
 
 [node name="Gate" type="Area2D" parent="." unique_id=1356160222]
-position = Vector2(1880, 380)
+position = Vector2(1880, 410)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Gate" unique_id=57549545]
 position = Vector2(-1, -8)

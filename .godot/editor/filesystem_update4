@@ -1,6 +1,4 @@
-res://autoload/game_state.gd
-res://scripts/gameplay.gd
 res://scripts/gameplay_level2.gd
 res://scripts/gameplay_level3.gd
-res://scripts/result_screen.gd
 res://scenes/gameplay_level3.tscn
+res://scenes/gameplay_level2.tscn

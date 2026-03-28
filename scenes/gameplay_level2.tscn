@@ -50,7 +50,7 @@ atlas = ExtResource("9")
 region = Rect2(224, 80, 112, 80)
 
 [sub_resource type="RectangleShape2D" id="RectGround400"]
-size = Vector2(471, 176)
+size = Vector2(338.25, 176)
 
 [sub_resource type="AtlasTexture" id="AtlasGroundTile"]
 atlas = ExtResource("8")
@@ -87,7 +87,7 @@ region = Rect2(160, 320, 16, 16)
 [sub_resource type="RectangleShape2D" id="RectGate"]
 size = Vector2(28, 48)
 
-[node name="Gameplay" type="Node2D" unique_id=1777211901]
+[node name="Gameplay2" type="Node2D" unique_id=1777211901]
 script = ExtResource("1")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=181473934]
@@ -164,25 +164,25 @@ color = Color(0.02, 0.05, 0.15, 0.42)
 texture_filter = 1
 
 [node name="Ground1" type="StaticBody2D" parent="Environment" unique_id=1476998372]
-position = Vector2(200, 520)
+position = Vector2(220, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground1" unique_id=214225764]
-position = Vector2(-4, 8)
+position = Vector2(41, 18)
 shape = SubResource("RectGround400")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground1" unique_id=1711587434]
-offset_left = -221.0
-offset_top = -120.0
-offset_right = 205.0
-offset_bottom = 76.0
+offset_left = -181.0
+offset_top = -92.0
+offset_right = 245.0
+offset_bottom = 104.0
 texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
 [node name="Ground2" type="StaticBody2D" parent="Environment" unique_id=1333598761]
-position = Vector2(760, 520)
+position = Vector2(820, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground2" unique_id=1826040495]
-position = Vector2(-52, 24)
+position = Vector2(-4.875, 24)
 shape = SubResource("RectGround400")
 
 [node name="TextureRect" type="TextureRect" parent="Environment/Ground2" unique_id=252040157]
@@ -194,7 +194,7 @@ texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
 [node name="Ground3" type="StaticBody2D" parent="Environment" unique_id=2099307223]
-position = Vector2(1320, 520)
+position = Vector2(1460, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground3" unique_id=2040691035]
 position = Vector2(80.5, -9)
@@ -209,7 +209,7 @@ texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
 [node name="Ground4" type="StaticBody2D" parent="Environment" unique_id=575677417]
-position = Vector2(1840, 520)
+position = Vector2(2100, 520)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground4" unique_id=1414064257]
 position = Vector2(85, 4.5)
@@ -224,7 +224,7 @@ texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
 [node name="Platform1" type="StaticBody2D" parent="Environment" unique_id=1227320030]
-position = Vector2(480, 360)
+position = Vector2(520, 360)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform1" unique_id=2143368060]
 position = Vector2(9, 60)
@@ -239,7 +239,7 @@ texture = SubResource("AtlasGroundTile")
 stretch_mode = 1
 
 [node name="Platform2" type="StaticBody2D" parent="Environment" unique_id=478084]
-position = Vector2(1040, 320)
+position = Vector2(1180, 310)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform2" unique_id=2041893284]
 position = Vector2(14, 115)
@@ -285,7 +285,7 @@ shape = SubResource("RectAttack")
 disabled = true
 
 [node name="NPC" type="Area2D" parent="." unique_id=2015113257]
-position = Vector2(1496, 381)
+position = Vector2(1350, 424)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NPC" unique_id=446814477]
 position = Vector2(2, -44)
@@ -327,7 +327,7 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="NPC2" type="Area2D" parent="." unique_id=355578011]
-position = Vector2(1760, 360)
+position = Vector2(2650, 424)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NPC2" unique_id=162807071]
 position = Vector2(2, -30)
@@ -372,7 +372,7 @@ autowrap_mode = 3
 [node name="Enemies" type="Node2D" parent="." unique_id=129552488]
 
 [node name="Snail1" type="Area2D" parent="Enemies" unique_id=1794894168 groups=["enemies"]]
-position = Vector2(620, 384)
+position = Vector2(770, 448)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Snail1" unique_id=53000764]
 position = Vector2(120, 3)
@@ -384,7 +384,7 @@ texture = ExtResource("6")
 hframes = 8
 
 [node name="Snail2" type="Area2D" parent="Enemies" unique_id=998635796 groups=["enemies"]]
-position = Vector2(1581, 351)
+position = Vector2(1540, 448)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Snail2" unique_id=538101880]
 position = Vector2(1, -27)
@@ -396,7 +396,7 @@ texture = ExtResource("6")
 hframes = 8
 
 [node name="Bee1" type="Area2D" parent="Enemies" unique_id=564008998 groups=["enemies"]]
-position = Vector2(930, 220)
+position = Vector2(1080, 220)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Bee1" unique_id=1490406596]
 shape = SubResource("RectEnemyBee")
@@ -406,7 +406,7 @@ texture = ExtResource("7")
 hframes = 4
 
 [node name="Bee2" type="Area2D" parent="Enemies" unique_id=48350076 groups=["enemies"]]
-position = Vector2(1680, 190)
+position = Vector2(1840, 190)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Bee2" unique_id=1282204363]
 shape = SubResource("RectEnemyBee")
@@ -416,7 +416,7 @@ texture = ExtResource("7")
 hframes = 4
 
 [node name="Snail3" type="Area2D" parent="Enemies" unique_id=271670753 groups=["enemies"]]
-position = Vector2(2439, 326)
+position = Vector2(2180, 448)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Snail3" unique_id=32069544]
 position = Vector2(-1, -19)
@@ -428,7 +428,7 @@ texture = ExtResource("6")
 hframes = 8
 
 [node name="Bee3" type="Area2D" parent="Enemies" unique_id=1431134286 groups=["enemies"]]
-position = Vector2(2620, 170)
+position = Vector2(2660, 170)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Bee3" unique_id=2077224003]
 shape = SubResource("RectEnemyBee")
@@ -438,9 +438,10 @@ texture = ExtResource("7")
 hframes = 4
 
 [node name="Coins" type="Node2D" parent="." unique_id=2088434822]
+z_index = 3
 
 [node name="Coin1" type="Area2D" parent="Coins" unique_id=299527681]
-position = Vector2(260, 380)
+position = Vector2(300, 390)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin1" unique_id=1631363916]
 shape = SubResource("RectCoin")
@@ -450,7 +451,7 @@ scale = Vector2(2, 2)
 texture = SubResource("AtlasCoin")
 
 [node name="Coin2" type="Area2D" parent="Coins" unique_id=1212097324]
-position = Vector2(480, 310)
+position = Vector2(560, 325)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin2" unique_id=736277769]
 shape = SubResource("RectCoin")
@@ -460,7 +461,7 @@ scale = Vector2(2, 2)
 texture = SubResource("AtlasCoin")
 
 [node name="Coin3" type="Area2D" parent="Coins" unique_id=929189304]
-position = Vector2(760, 380)
+position = Vector2(980, 390)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin3" unique_id=1798707987]
 shape = SubResource("RectCoin")
@@ -470,7 +471,7 @@ scale = Vector2(2, 2)
 texture = SubResource("AtlasCoin")
 
 [node name="Coin4" type="Area2D" parent="Coins" unique_id=1813796582]
-position = Vector2(1040, 260)
+position = Vector2(1340, 270)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin4" unique_id=175183519]
 shape = SubResource("RectCoin")
@@ -480,10 +481,9 @@ scale = Vector2(2, 2)
 texture = SubResource("AtlasCoin")
 
 [node name="Coin5" type="Area2D" parent="Coins" unique_id=645914191]
-position = Vector2(2260, 370)
+position = Vector2(2240, 390)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin5" unique_id=1975754671]
-position = Vector2(-0.5, 0)
 shape = SubResource("RectCoin")
 
 [node name="Visual" type="Sprite2D" parent="Coins/Coin5" unique_id=176665949]
@@ -503,7 +503,7 @@ texture = SubResource("AtlasCoin")
 [node name="Drops" type="Node2D" parent="." unique_id=764341648]
 
 [node name="Gate" type="Area2D" parent="." unique_id=1356160222]
-position = Vector2(1879, 386)
+position = Vector2(2960, 410)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Gate" unique_id=57549545]
 position = Vector2(0, 1)

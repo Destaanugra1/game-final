@@ -153,13 +153,14 @@ func _ensure_floor() -> void:
 func _ensure_obstacles() -> void:
 	if has_node("Environment/ObstacleA"):
 		return
-	# Tiap obstacle pakai region batu berbeda dari Props-Rocks.png
-	_add_obstacle("ObstacleA", Vector2(940,  484), Vector2(64, 72),  Rect2(0,   0,  64, 64))
-	_add_obstacle("ObstacleB", Vector2(1740, 484), Vector2(84, 84),  Rect2(64,  0,  64, 64))
-	_add_obstacle("ObstacleC", Vector2(2280, 484), Vector2(72, 80),  Rect2(128, 0,  64, 64))
-	_add_obstacle("ObstacleD", Vector2(2680, 484), Vector2(80, 96),  Rect2(0,   64, 64, 64))
+	# Batu dekoratif menggunakan region proporsional dari Props-Rocks.png
+	# Scale seragam 2x agar pixel art tetap tajam, posisi Y di atas ground
+	_add_obstacle("ObstacleA", Vector2(900,  465), Vector2(48, 50),  Rect2(0,   0,  24, 25), Vector2(2.0, 2.0))
+	_add_obstacle("ObstacleB", Vector2(1700, 460), Vector2(56, 56),  Rect2(27,  0,  28, 28), Vector2(2.0, 2.0))
+	_add_obstacle("ObstacleC", Vector2(2250, 462), Vector2(44, 52),  Rect2(58,  0,  22, 26), Vector2(2.0, 2.0))
+	_add_obstacle("ObstacleD", Vector2(2700, 458), Vector2(52, 60),  Rect2(83,  0,  26, 30), Vector2(2.0, 2.0))
 
-func _add_obstacle(obstacle_name: String, pos: Vector2, size: Vector2, rock_region: Rect2) -> void:
+func _add_obstacle(obstacle_name: String, pos: Vector2, size: Vector2, rock_region: Rect2, sc: Vector2 = Vector2(2.0, 2.0)) -> void:
 	var body := StaticBody2D.new()
 	body.name     = obstacle_name
 	body.position = pos
@@ -167,13 +168,13 @@ func _add_obstacle(obstacle_name: String, pos: Vector2, size: Vector2, rock_regi
 	var rect := RectangleShape2D.new()
 	rect.size = size
 	col.shape = rect
-	# Ganti Polygon2D merah dengan sprite batu dari Props-Rocks.png
+	# Sprite batu dari Props-Rocks.png dengan scale proporsional
 	var atlas := AtlasTexture.new()
 	atlas.atlas  = load("res://assets/Props-Rocks.png")
 	atlas.region = rock_region
 	var visual := Sprite2D.new()
 	visual.texture = atlas
-	visual.scale   = Vector2(size.x / rock_region.size.x, size.y / rock_region.size.y)
+	visual.scale   = sc
 	body.add_child(col)
 	body.add_child(visual)
 	$Environment.add_child(body)
@@ -275,19 +276,21 @@ func _apply_layout() -> void:
 		if has_node("Coins/" + cd[0]):
 			$Coins.get_node(cd[0]).position = cd[1]
 
-	# Musuh
-	if has_node("Enemies/Snail1"): $Enemies/Snail1.position = Vector2(700,  448)
-	if has_node("Enemies/Snail2"): $Enemies/Snail2.position = Vector2(1580, 448)
-	if has_node("Enemies/Snail3"): $Enemies/Snail3.position = Vector2(2460, 448)
+	# Musuh — posisi awal di tengah ground masing-masing
+	if has_node("Enemies/Snail1"): $Enemies/Snail1.position = Vector2(770,  448)
+	if has_node("Enemies/Snail2"): $Enemies/Snail2.position = Vector2(1540, 448)
+	if has_node("Enemies/Snail3"): $Enemies/Snail3.position = Vector2(2180, 448)
 	if has_node("Enemies/Bee1"):   $Enemies/Bee1.position   = Vector2(1080, 220)
 	if has_node("Enemies/Bee2"):   $Enemies/Bee2.position   = Vector2(1840, 190)
 	if has_node("Enemies/Bee3"):   $Enemies/Bee3.position   = Vector2(2660, 170)
 
 func _spawn_enemies() -> void:
+	# Patrol range keong dibatasi agar tetap di atas ground platform
+	# Ground2: ~533-1004, Ground3: ~1305-1776, Ground4: ~1940-2430
 	var enemy_configs := [
-		["Snail1", "snail", 520.0,  1000.0, 448.0],
-		["Snail2", "snail", 1180.0, 1780.0, 448.0],
-		["Snail3", "snail", 2100.0, 2800.0, 448.0],
+		["Snail1", "snail", 560.0,   980.0, 448.0],  # di Ground2
+		["Snail2", "snail", 1330.0, 1750.0, 448.0],  # di Ground3
+		["Snail3", "snail", 1960.0, 2400.0, 448.0],  # di Ground4
 		["Bee1",   "bee",   820.0,  1410.0, 220.0],
 		["Bee2",   "bee",   1500.0, 2240.0, 190.0],
 		["Bee3",   "bee",   2350.0, 2940.0, 170.0],
